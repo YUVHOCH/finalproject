@@ -1,0 +1,75 @@
+
+/*finalproject\src\styles\SearchBarWithCategory.module.css*/
+.container {
+    display: flex;
+    grid-row: 2;
+    align-items: flex-start;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    overflow: visible;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    background-color: white;
+    position: relative;
+  }
+
+  @media (max-width: 768px) {
+    .container {
+    width: auto;
+    max-width: 100%;
+    margin: 0;
+    }
+  }
+  
+  .dropdownWrapper {
+    position: relative;
+  }
+  
+  .dropdownButton {
+    background: #f3f3f3;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-weight: bold;
+    border-right: 1px solid #ccc;
+  }
+  
+  .dropdownMenu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 160px;
+    background: white;
+    border: 1px solid #ccc;
+    z-index: 100;
+    list-style: none;
+    margin: 0;
+    padding: 4px 0;
+    border-radius: 4px;
+  }
+  
+  .dropdownItem {
+    padding: 8px 12px;
+    cursor: pointer;
+  }
+  
+  .dropdownItem:hover {
+    background-color: #eee;
+  }
+  
+  .searchInput {
+    flex: 1;
+    padding: 8px 12px;
+    border: none;
+    outline: none;
+  }
+  
+  .searchButton {
+    background-color: orange;
+    border: none;
+    padding: 8px 14px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+  }

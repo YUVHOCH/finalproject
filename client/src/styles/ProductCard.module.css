@@ -1,0 +1,153 @@
+/*src\styles\ProductCard.module.css*/
+.card {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  border: 1px solid #ddd;
+  border-radius: 16px;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  align-items: flex-start;
+  justify-content: space-between;
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 250px;
+}
+
+.brand {
+  width: 80px;
+  height: auto;
+  margin-bottom: 8px;
+  object-fit: contain;
+}
+
+.image {
+  width: 100%;
+  max-width: 220px;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+.rightpart {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+  padding-left: 10px;
+  position: relative;
+}
+
+.productName {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.shortdescription {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 12px;
+}
+
+.price {
+  font-size: 18px;
+  color: #0044cc;
+  font-weight: bold;
+}
+
+.priceinstead {
+  font-size: 14px;
+  color: #888;
+  text-decoration: line-through;
+  margin-left: 10px;
+}
+
+.meta {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+}
+
+.sku,
+.category {
+  font-size: 12px;
+  color: #777;
+  margin: 2px 0;
+}
+
+.review {
+  width: 90px;
+  margin-top: 6px;
+}
+
+.cartButton {
+  align-self: flex-end;
+  margin-top: 12px;
+  padding: 8px 14px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.cartButton:hover {
+  background-color: #0056b3;
+}
+
+@media (max-width: 768px) {
+  .productCard {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .productImage {
+    order: -1; /* התמונה תופיע מעל */
+    width: 100%;
+    height: auto;
+  }
+
+  .productDetails {
+    padding-top: 1rem;
+  }
+}
+
+/* 📱 במובייל – להפוך מבנה לעמודה ולהציג תמונה מעל */
+@media (max-width: 768px) {
+  .card {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;          /* ✅ זה חשוב */
+    box-sizing: border-box; /* למניעת גלישה מה-padding */
+  }
+
+  .left {
+    max-width: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
+
+  .image {
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+  }
+
+  .rightpart {
+    width: 100%;
+    padding: 0 1rem;
+  }
+}

@@ -1,0 +1,97 @@
+.loginPage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background: linear-gradient(to bottom, #2fbfcc, #ffffff);
+    min-height: 100vh;
+    padding-top: 40px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .titles {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 30px;
+  }
+  
+  .titles h1 {
+    color: #0077cc;
+    text-decoration: underline;
+    font-size: 32px;
+    margin-bottom: 5px;
+  }
+  
+  .titles p {
+    font-size: 18px;
+    color: #313030;
+  }
+  
+  .loginForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #ccc;
+    border-radius: 12px;
+    background-color: #fefefe;
+    width: 500px;
+    height: 250px;
+    padding: 30px 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    gap: 20px;
+  }
+  
+  .formRow {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 10px; /* רווח קטן אבל ברור */
+  }
+  
+  .formRow label {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    min-width: 80px;  /* 🔽 במקום 120px */
+    text-align: right;
+  }
+  
+  .inputField {
+    font-size: 18px;
+    width: 350px;
+    height: 35px;
+    padding: 5px 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    background-color: #f8f8f8;
+    transition: border 0.3s ease;
+    margin-top: 0; 
+  }
+  
+  .inputField:focus {
+    outline: none;
+    border: 1px solid #0077cc;
+    background-color: #ffffff;
+  }
+  
+  .button {
+    width: 160px;
+    height: 40px;
+    background: linear-gradient(135deg, #00bcd4, #008c9e);
+    color: white;
+    font-size: 17px;
+    font-weight: bold;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease-in-out;
+    margin-top: 30px;
+  }
+  
+  .button:hover {
+    background: linear-gradient(135deg, #008c9e, #006f79);
+    transform: scale(1.05);
+  }
+  
