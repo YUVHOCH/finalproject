@@ -1,81 +1,58 @@
 // src/pages/ProductsPage.js
-import React, { useEffect, useState } from "react";
-import styles from "../styles/ProductsPage.module.css";
+import React, { useEffect, useState, useRef } from "react";
+import axios from "axios";
 import ProductCard from "../components/ProductCard";
-import SearchBarWithCategory from "../components/SearchBarWithCategory";
-import { useTranslation } from "react-i18next"; // ✅ הוסף את זה
-
+import { useSearch } from "../context/SearchContext";
+import styles from "../styles/ProductsPage.module.css";
+import TopTicker from "../components/TopTicker";
+import Header from "../pages/Header";
+import SearchStrip from "../components/SearchStrip";
+import useScrollDirection from "../hooks/useScrollDirection";
 
 const ProductsPage = () => {
   const [products, setProducts] = useState([]);
-  const [limit, setLimit] = useState(100);
   const [selectedCategory, setSelectedCategory] = useState("");
-  const [searchTerm, setSearchTerm] = useState("");
-  const { t } = useTranslation(); // ✅ קריאה לפונקציית התרגום
+  const { searchTerm } = useSearch();
+  const scrollDirection = useScrollDirection();
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const observer = useRef();
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await fetch("http://localhost:8000/products");
-        const data = await res.json();
-        setProducts(data);
-        setLimit(data.length);
+        const res = await axios.get("http://localhost:8000/products");
+        setProducts(res.data.products);
       } catch (err) {
-        console.error("Error loading products", err);
+        console.error("Error fetching products:", err);
       }
     };
-
     fetchProducts();
   }, []);
 
-  const handleLimitChange = (e) => {
-    const value = parseInt(e.target.value, 10);
-    setLimit(value > 0 ? value : products.length);
-  };
-
   const filteredProducts = products.filter((p) => {
-    const categoryMatch =
+    const s = searchTerm?.toLowerCase() || "";
+    const matchCategory =
       selectedCategory === "" ||
       p.category?.toLowerCase() === selectedCategory.toLowerCase();
+    const matchSearch =
+      p.productName?.toLowerCase().includes(s) ||
+      p.brand?.toLowerCase().includes(s) ||
+      p.sku?.toString().includes(s);
 
-    const search = searchTerm.toLowerCase();
-    const inName = p.productName?.toLowerCase().includes(search);
-    const inCategory = p.category?.toLowerCase().includes(search);
-    const inBrand = p.brand?.toLowerCase().includes(search);
-
-    const searchMatch =
-      search === "" || inName || inCategory || inBrand;
-
-    return categoryMatch && searchMatch;
-  })
-  .slice(0, limit);
-
+    return matchCategory && matchSearch;
+  });
 
   return (
-    <div className={styles.controlRow}>
-  <div className={styles.limitWrapper}>
-  <label htmlFor="limitInput">{t("searchBar.limitItems")}:</label>
-    <input
-      id="limitInput"
-      type="number"
-      min="0"
-      value={limit}
-      onChange={handleLimitChange}
-      className={styles.limitInput}/>
-</div>
-<div className={styles.searchBar}>
- <SearchBarWithCategory
-    onSearch={(term) => setSearchTerm(term?.toLowerCase() || "")}
-    onCategoryChange={(cat) => setSelectedCategory(cat || "")}
-  />
-  </div>
-    
-      <div className={styles.productsGrid}>
-        {filteredProducts.map((product) => (
-          <ProductCard key={product._id || product.sku} {...product} />
-        ))}
-      </div>
-  </div>
+       <main className={styles.mainContent}>
+         <div className={styles.productsGrid}>
+         {filteredProducts.map((prod) => {
+          console.log("🔎 מוצר:", prod); // ✅ כאן אתה רואה את כל השדות המועברים
+          return <ProductCard key={prod._id || prod.sku} {...prod} />;
+        })}
+
+        </div>
+      </main>
   );
 };
 

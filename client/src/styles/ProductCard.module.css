@@ -1,153 +1,197 @@
-/*src\styles\ProductCard.module.css*/
 .card {
   display: flex;
-  flex-direction: row;
-  gap: 16px;
+  flex-direction: row-reverse; /* תמונה מימין */
+  gap: 20px;
   border: 1px solid #ddd;
   border-radius: 16px;
   padding: 20px;
   background-color: #fff;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  align-items: flex-start;
-  justify-content: space-between;
-  position: relative;
   margin-bottom: 20px;
+  align-items: flex-start;
+  direction: ltr; 
 }
 
-.left {
+.imageWrapper {
+  width: 270px;
+  height: 270px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.mainImage {
+  max-width: 90%;
+  max-height: 90%;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+  border-radius: 12px;
+}
+
+imageSection {
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 250px;
+  width: 270px;
+  flex-shrink: 0;
 }
 
-.brand {
-  width: 80px;
-  height: auto;
-  margin-bottom: 8px;
+.thumbnailList {
+  margin-top: 10px;
+  display: flex;
+  gap: 8px;
+  justify-content: right;
+  margin-right: 15px;
+}
+
+.thumbnail {
+  width: 50px;
+  height: 50px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  cursor: pointer;
   object-fit: contain;
+  margin-top: 15px;
+
 }
 
-.image {
-  width: 100%;
-  max-width: 220px;
-  border-radius: 12px;
-  object-fit: cover;
-}
-
-.rightpart {
+.details {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  flex: 1;
-  padding-left: 10px;
-  position: relative;
+  direction: rtl;
+  text-align: right;
 }
 
-.productName {
-  font-size: 18px;
+.brandLogo {
+  max-height: 50px;
+  max-width: 120px;
+  object-fit: contain;
+  margin-bottom: 10px;
+}
+
+.productLink {
+  text-decoration: none; /* ❌ בלי קו תחתון */
+  color: inherit;
+}
+
+.name {
+  font-size: 20px;
   font-weight: bold;
-  margin-bottom: 8px;
+  margin: 0 0 10px 0;
 }
 
-.shortdescription {
-  font-size: 13px;
+.shortDescription {
+  height: 11em; /* בערך 4.5–5 שורות */
+  overflow: hidden;
+  position: relative;
+  line-height: 1.4em;
+  font-size: 14px;
   color: #666;
+  margin-bottom: 40px;
+}
+
+.shortDescription::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  height: 2em;
+  width: 100%;
+  background: linear-gradient(to top, #fff, rgba(255, 255, 255, 0));
+}
+.meta {
+  font-size: 13px;
+  color: #888;
   margin-bottom: 12px;
 }
 
+.priceBox {
+  margin-bottom: 12px;
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+}
+
 .price {
-  font-size: 18px;
+  font-size: 22px;
   color: #0044cc;
   font-weight: bold;
 }
 
-.priceinstead {
+.priceInstead {
   font-size: 14px;
   color: #888;
   text-decoration: line-through;
-  margin-left: 10px;
 }
 
-.meta {
+.actions {
   display: flex;
-  flex-direction: column;
-  margin-top: 10px;
+  height: 40px;
+  gap: 20px;
+  margin-bottom: 12px;
+  margin-left: 30px;
 }
 
-.sku,
-.category {
-  font-size: 12px;
-  color: #777;
-  margin: 2px 0;
+.quantitySelect {
+  padding: 5px 5px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  width: 50px;
+}
+
+.addToCart {
+  padding: 6px 7px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 70px;
+  font-size: 14px;
+}
+
+.addToCart:hover {
+  background-color: #0056b3;
+}
+
+.detailsButton {
+  background-color: #fdfdfd;  /* ירוק */
+  border: 1px solid #403e3e;
+  border-radius: 6px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 15px;
+  width: 70px;
+  line-height: 35px; /* תואם לגובה – ממורכז אנכית */
+  text-align: center;
+  color: #007bff;
+  font-weight: bold ;
+}
+
+.detailsButton:hover {
+  background-color: #007bff;
+  color: #f8f8f9;
 }
 
 .review {
   width: 90px;
-  margin-top: 6px;
 }
 
-.cartButton {
-  align-self: flex-end;
-  margin-top: 12px;
-  padding: 8px 14px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background 0.3s ease;
+.info {
+  display: flex;
+  flex-direction: column;
+  direction: rtl;
+  text-align: right;
 }
 
-.cartButton:hover {
-  background-color: #0056b3;
+.metaLine{
+  font-size: 12px;
 }
 
-@media (max-width: 768px) {
-  .productCard {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-  }
-
-  .productImage {
-    order: -1; /* התמונה תופיע מעל */
-    width: 100%;
-    height: auto;
-  }
-
-  .productDetails {
-    padding-top: 1rem;
-  }
-}
-
-/* 📱 במובייל – להפוך מבנה לעמודה ולהציג תמונה מעל */
-@media (max-width: 768px) {
-  .card {
-    flex-direction: column;
-    align-items: center;
-    width: 100%;          /* ✅ זה חשוב */
-    box-sizing: border-box; /* למניעת גלישה מה-padding */
-  }
-
-  .left {
-    max-width: 100%;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    margin-bottom: 1rem;
-  }
-
-  .image {
-    max-width: 100%;
-    width: 100%;
-    height: auto;
-    border-radius: 12px;
-  }
-
-  .rightpart {
-    width: 100%;
-    padding: 0 1rem;
-  }
-}

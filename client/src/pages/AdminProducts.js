@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import TiptapEditor from "../components/TiptapEditor";
 import styles from "../styles/AdminProducts.module.css";
 import { useNavigate } from "react-router-dom";
+import UploadExcelButton from "../components/UploadExcelButton";
+
 
 const AdminProducts = () => {
   const [products, setProducts] = useState([]);
@@ -21,7 +23,7 @@ const AdminProducts = () => {
     try {
       const res = await fetch("http://localhost:8000/products");
       const data = await res.json();
-      setProducts(data);
+      setProducts(data.products);
     } catch (err) {
       console.error("❌ Error loading products:", err);
     }
@@ -92,7 +94,7 @@ const AdminProducts = () => {
     <div className={styles.container}>
       <h2 className={styles.title}>🛠️ Admin: Products Management</h2>
 
-      <div className={styles.actions}>
+    <div className={styles.actions}>
         <button onClick={handleDeleteAll} className={styles.deleteButton}>
           🗑️ Delete All Products
         </button>
@@ -100,7 +102,10 @@ const AdminProducts = () => {
         <button onClick={handleUploadFromJson} className={styles.uploadButton}>
           ⬆️ Upload from JSON
         </button>
-      </div>
+
+        <UploadExcelButton onUploadSuccess={fetchProducts} />
+
+    </div>
       
       <div className={styles.topActions}>
         <button onClick={handleAdd} className="bg-green-600 text-white px-3 py-1 rounded">

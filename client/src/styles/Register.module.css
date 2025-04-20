@@ -1,14 +1,14 @@
 /* ✅ קובע רקע כללי לעמוד */
 .page {
-    min-height: 100vh;
+    min-height: auto;
     background-color: #ebe8e5;
-    display: flex;
+    display: grid;
     width: 100%; 
 }
 
 .formContainer {
     display: flex;
-    justify-content: space-between;
+    justify-content:center;
     gap: 20px;
     padding: 20px;
     height: auto; /* מוודא שזה לא חותך */
@@ -17,7 +17,7 @@
   .leftsection {
     display: flex;
     flex-direction: column;
-    height: 100%;
+    height: auto;
     padding: 10px;
     background: linear-gradient(135deg, rgb(248, 248, 247), rgb(220, 215, 210));
     border: 2px solid black;
@@ -28,9 +28,9 @@
 
 /* ✅ ריווח משופר בין השדות */
 .inputField {
-    width: 300px !important;  /* ✅ מגדיר רוחב אחיד */
+    width: 250px !important;  /* ✅ מגדיר רוחב אחיד */
     padding: 6px; /* ✅ מוסיף ריווח פנימי לשדה */
-    font-size: 16px;
+    font-size: 14px;
     border: 1px solid #d19c9c;
     border-radius: 5px;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
@@ -38,7 +38,7 @@
 
 /* ✅ מגדיל את הכותרות של השדות */
 label {
-    font-size: 12px;
+    font-size: 12.5px;
     margin-bottom: 0px; /* 🟢 מ-2px ל-0px */
     margin-top: 12px;   /* 🆕 מוסיף רווח מעל הלייבל */
 }

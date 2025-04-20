@@ -1,61 +1,55 @@
+// src/pages/ProductsPage.js
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import ProductCard from "../components/ProductCard";
-import styles from "../styles/App.module.css";
+import { useSearch } from "../context/SearchContext";
+import styles from "../styles/ProductsPage.module.css";
+import TopTicker from "../components/TopTicker";
+import Header from "../pages/Header";
+import SearchStrip from "../components/SearchStrip";
+import useScrollDirection from "../hooks/useScrollDirection";
 
 const ProductsPage = () => {
   const [products, setProducts] = useState([]);
-  const [limit, setLimit] = useState(10);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const { searchTerm } = useSearch();
+  const scrollDirection = useScrollDirection();
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await fetch("http://localhost:8000/products");
-        if (!res.ok) throw new Error("Server error");
-        const data = await res.json();
-        console.log("✅ Loaded from API");
-        setProducts(data);
+        const res = await axios.get("http://localhost:8000/products");
+        setProducts(res.data);
       } catch (err) {
-        console.warn("⚠️ API failed, loading from local JSON...");
-        const res = await fetch("/data/products.json");
-        const data = await res.json();
-        setProducts(data);
+        console.error("Error fetching products:", err);
       }
     };
-
     fetchProducts();
   }, []);
 
-  const handleLimitChange = (event) => {
-    const value = parseInt(event.target.value, 10);
-    setLimit(value > 0 ? value : 0);
-  };
+  const filteredProducts = products.filter((p) => {
+    const s = searchTerm?.toLowerCase() || "";
+    const matchCategory =
+      selectedCategory === "" ||
+      p.category?.toLowerCase() === selectedCategory.toLowerCase();
+    const matchSearch =
+      p.productName?.toLowerCase().includes(s) ||
+      p.brand?.toLowerCase().includes(s) ||
+      p.sku?.toString().includes(s);
+
+    return matchCategory && matchSearch;
+  });
 
   return (
-    <>
-      <h2 style={{ margin: "20px 40px" }}>All Products</h2>
+       <main className={styles.mainContent}>
+         <div className={styles.productsGrid}>
+         {filteredProducts.map((prod) => {
+          console.log("🔎 מוצר:", prod); // ✅ כאן אתה רואה את כל השדות המועברים
+          return <ProductCard key={prod._id || prod.sku} {...prod} />;
+        })}
 
-      <div className={styles.limitContainer}>
-        <div className={styles.limitLine}>
-          <label style={{ fontSize: "18px", color: "gray" }}>
-            Number of products to show:&nbsp;
-          </label>
-          <input
-            type="number"
-            value={limit}
-            onChange={handleLimitChange}
-            min="1"
-            max={products.length}
-            className={styles.limitInput}
-          />
         </div>
-      </div>
-
-      <div className={styles.productsGrid}>
-        {products.slice(0, limit).map((prod) => (
-          <ProductCard key={prod.sku} {...prod} />
-        ))}
-      </div>
-    </>
+      </main>
   );
 };
 

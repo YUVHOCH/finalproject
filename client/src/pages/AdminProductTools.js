@@ -1,6 +1,8 @@
 // src/pages/AdminProductTools.js
 import React from "react";
 import productsData from "../data/products.json";
+import UploadExcelButton from "../components/UploadExcelButton";
+
 
 const AdminProductTools = () => {
   const handleDeleteAll = async () => {
@@ -50,6 +52,7 @@ const AdminProductTools = () => {
         🗑️ Delete All Products
       </button>
       <button onClick={handleUploadJson}>⬆️ Upload from JSON</button>
+      <UploadExcelButton onUploadSuccess={handleUploadSuccess} />
     </div>
   );
 };

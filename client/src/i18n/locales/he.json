@@ -28,7 +28,7 @@
     "password": "סיסמה",
     "subscribe": "מעוניין לקבל הצעות ומבצעים במייל",
     "terms": "אני מסכים לתנאי השימוש",
-    "submit": "שלח",
+    "submit":"שליחה",
     "requiredField": "שדה חובה",
     "errors": {
     "invalidPhone": "מספר טלפון לא תקין. השתמש בפורמט XXX-XXXXXXX.",
@@ -65,13 +65,22 @@
   "subtitle": "כבר יש לך חשבון? התחבר כאן:",
   "username": "שם משתמש",
   "password": "סיסמה",
-  "submit": "שלח"
+  "submit": "שליחה"
 },
 "searchBar": {
   "placeholder": "חפש מוצרים...",
   "limitItems": "מספר מוצרים לתצוגה",
   "allCategories": "הכל"
-}
-}
+},
 
+
+"productCard": {
+  "price": "מחיר",
+  "instead": "במקום",
+  "sku": "מק״ט",
+  "category": "קטגוריה",
+  "addToCart": "הוסף לעגלה",
+  "reviewsAlt": "חוות דעת של לקוחות"
+}
+}
 

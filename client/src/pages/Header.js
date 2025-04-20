@@ -7,7 +7,6 @@ import logo from "../assets/logo.png";
 import cartIcon from "../assets/cart.png";
 import wishlistIcon from "../assets/wishlist.png";
 import loginIcon from "../assets/login.png";
-import SearchBarWithCategory from "../components/SearchBarWithCategory";
 import { useTranslation } from "react-i18next";
 
 const Header = () => {

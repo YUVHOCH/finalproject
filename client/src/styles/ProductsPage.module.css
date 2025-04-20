@@ -2,16 +2,6 @@
   padding: 20px;
 }
 
-/* שורת שליטה: limit + חיפוש */
-.controlRow {
-  display: flex;
-  flex-direction: row; 
-  align-items: center; /* יישור אנכי של כל האלמנטים */
-  justify-content: center; /* למרכז את השורה בתוך הדף */
-  gap: 20px; /* ריווח ביניהם */
-  flex-wrap: wrap; 
-}
-
 /* עיצוב limit */
 .limitWrapper {
   display: flex;
@@ -19,7 +9,6 @@
   justify-content: center;
   align-items: center;
   gap: 10px;
-  flex-wrap: nowrap; /* זה חשוב */
 }
 
 .limitWrapper label {

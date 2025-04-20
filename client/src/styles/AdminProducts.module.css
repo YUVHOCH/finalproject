@@ -21,7 +21,7 @@
   }
   
   .deleteButton,
-  .uploadButton {
+  .uploadButton, .UploadExcelButton {
     padding: 10px 16px;
     border: none;
     border-radius: 6px;
@@ -47,6 +47,15 @@
   
   .uploadButton:hover {
     background-color: #388e3c;
+  }
+
+  .UploadExcelButton {
+    background-color: #5b31bd;
+    color: white;
+  }
+  
+  .UploadExcelButton:hover {
+    background-color: #5b31bd;
   }
   
   table {
