@@ -1,142 +1,155 @@
-.pageContainer {
-  padding: 20px;
-}
-
-/* עיצוב limit */
-.limitWrapper {
+/* 🧱 עמוד שלם */
+.pageWrapper {
+  padding: 40px;
   display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
+  flex-direction: column;
+  gap: 32px;
+  padding-top: 0;       /* הוסף אם לא קיים */
+  margin-top: 0;        /* הוסף אם לא קיים */
 }
 
-.limitWrapper label {
-  font-size: 13px;
-  font-weight: 500;
-  margin-left: 40px;
-  margin-bottom: 20px;
+/* 🧱 תוכן פנימי: פילטרים מימין, מוצרים משמאל */
+.contentWrapper {
+  display: grid;
+  grid-template-columns: 300px 1fr; /* ← שחק עם רוחב הסיידבר כאן */
+  gap: 24px;
+  direction: rtl;
 }
 
-.limitInput {
-  padding: 2px 4px;
-  font-size: 13px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  width: 30px;
-  height: 25px;
+/* 🎚️ סיידבר פילטרים */
+.sidebarFilters {
+  background: #fafafa;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  position: sticky;
+  top: 120px;
+  height: fit-content;
 }
 
-.searchBar {
-    width: 800px;
-    margin: 0 auto;
-    box-sizing: border-box;
-  }
-
-/* מובייל */
-@media (max-width: 768px) {
-  .controlRow {
-    flex-direction: column; /* כל אלמנט ילד יורד שורה */
-    align-items: stretch;
-    gap: 0px;
-  }
-
-  .limitWrapper {
-    width: 100%;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 5px;
-    margin-bottom: 0px;
-    margin-left: 10px;
-  }
-
-  .limitWrapper label {
-    font-size: 14px;
-    margin-bottom: 20px;
-  }
-
-  .limitInput {
-    width: 30px;
-  }
-  .searchBar {
-    width: 100%;
-    margin: 0 10px 10px 10px;
-    box-sizing: border-box;
-  }  
-}
-@media (max-width: 768px) {
-  .productsGrid {
-    grid-template-columns: 1fr; /* מוצר אחד בשורה */
-    gap: 15px; /* תן קצת ריווח אנכי */
-    padding: 0 10px; /* מרווח מהקצוות */
-    width: 100%;
-
-  }
+.sidebarFilters h3 {
+  font-size: 18px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 6px;
 }
 
-/* dropdown בחיפוש */
-.dropdownWrapper {
-  position: relative;
-  min-width: 120px;
-  max-width: 160px;
-  z-index: 100;
-}
-
-.dropdownButton {
-  background: #f3f3f3;
-  border: none;
-  padding: 0 12px;
-  cursor: pointer;
-  font-weight: bold;
-  height: 100%;
-  border-right: 1px solid #ccc;
-}
-
-.dropdownMenu {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: 160px;
-  background: white;
-  border: 1px solid #ccc;
-  z-index: 1000;
-  list-style: none;
-  margin: 0;
-  padding: 4px 0;
-  border-radius: 4px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-}
-
-.dropdownItem {
-  padding: 8px 12px;
-  cursor: pointer;
-}
-
-.dropdownItem:hover {
-  background-color: #eee;
-}
-
-.searchInput {
-  flex: 1;
-  padding: 10px 12px;
-  border: none;
-  outline: none;
+.sidebarFilters h4 {
   font-size: 16px;
+  margin: 16px 0 8px;
 }
 
-.searchButton {
-  background-color: orange;
-  border: none;
-  padding: 0 14px;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-  height: 100%;
+.sidebarFilters label {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 6px;
 }
-/* רשת מוצרים */
+
+/* 📦 אזור המוצרים */
+.productsSection {
+  display: flex;
+  flex-direction: column;
+}
+
+/* 🏷️ כותרת */
+.pageTitle {
+  font-size: 22px;
+  font-weight: bold;
+  margin: 20px 0 12px;
+}
+
+/* 📷 תצוגת תת־קטגוריות (אייקונים) */
+.categoryIconsWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.categoryIconBox {
+  width: 120px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.categoryIconImage {
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.07);
+}
+
+/* 🧱 גריד מוצרים – שלוט בגודל הכרטיס כאן */
 .productsGrid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-  width: 100%;
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  gap: 24px;
 }
+
+.filterGroup {
+  margin-bottom: 24px;
+  columns: flex;
+  padding: 15px;
+}
+
+.filterGroup h4 {
+  font-size: 18px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 4px;
+  color: #444;
+}
+
+.checkboxItem {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  padding: 4px 0;
+  font-size: 14px;
+  color: #333;
+}
+
+.checkboxItem input[type="checkbox"] {
+  transform: scale(1.1);
+}
+
+.checkboxItem {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  padding: 4px 0;
+  font-size: 14.5px  !important;;
+  color: #333232;
+  font-weight: normal;              /* 👈 מונע בולד */
+  font-family: "Segoe UI", sans-serif; /* 👈 דוגמה לפונט נקי וקריא */
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  font-size: 14px;
+  margin-bottom: 10px;
+  color: #333;
+  padding: 0 8px;
+  direction: rtl;
+}
+
+.breadcrumbItem {
+  color: #333;
+}
+
+.breadcrumbSeparator {
+  margin: 0 6px;
+  color: #999;
+}
+
+.breadcrumbCurrent {
+  font-weight: bold;
+  color: #000;
+}
+
+
+

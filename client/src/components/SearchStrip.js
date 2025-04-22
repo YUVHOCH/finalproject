@@ -1,21 +1,47 @@
 // src/components/SearchStrip.js
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styles from "../styles/SearchStrip.module.css";
 import { FaSearch, FaBars } from "react-icons/fa";
 import { useSearch } from "../context/SearchContext";
 import CategoryMenu from "./CategoryMenu";
+import { useNavigate } from "react-router-dom";
 
 const SearchStrip = ({ categories }) => {
-  const { searchTerm, setSearchTerm } = useSearch();
+  const { setSearchTerm } = useSearch();
   const [showMenu, setShowMenu] = useState(false);
+  const [localTerm, setLocalTerm] = useState("");
+  const menuRef = useRef(null); // ✅ רפרנס לתפריט
+  const navigate = useNavigate();
+
+  // ✅ סגירה אוטומטית בלחיצה מחוץ לתפריט או על Escape
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        setShowMenu(false);
+      }
+    };
+
+    const handleEsc = (e) => {
+      if (e.key === "Escape") setShowMenu(false);
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleEsc);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleEsc);
+    };
+  }, []);
 
   const handleInputChange = (e) => {
-    const value = e.target.value.trimStart();
-    setSearchTerm(value);
+    setLocalTerm(e.target.value);
   };
 
   const handleSearch = () => {
-    console.log("🔍 מחפש:", searchTerm);
+    setSearchTerm(localTerm.trim());
+    navigate("/products");
+    setShowMenu(false); // ✅ סגור תפריט אחרי חיפוש
   };
 
   const handleKeyDown = (e) => {
@@ -33,9 +59,12 @@ const SearchStrip = ({ categories }) => {
             <FaBars />
           </button>
 
-          {showMenu && (
-            <div className={styles.menuWrapper}>
-              <CategoryMenu categories={categories} />
+          {showMenu && Array.isArray(categories) && categories.length > 0 && (
+            <div className={styles.menuWrapper} ref={menuRef}>
+              <CategoryMenu
+                categories={categories}
+                closeMenu={() => setShowMenu(false)}
+              />
             </div>
           )}
         </div>
@@ -53,7 +82,7 @@ const SearchStrip = ({ categories }) => {
           type="text"
           placeholder="אני רוצה לקנות..."
           className={styles.searchInput}
-          value={searchTerm}
+          value={localTerm}
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
         />

@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styles from "../styles/ProductCard.module.css";
 import reviewImage from "../assets/reviews.jpg";
+import { useNavigate } from "react-router-dom";
 
 const ProductCard = ({
   sku,
@@ -16,8 +17,9 @@ const ProductCard = ({
   shortDescription,
   longDescription,
   country,
-  warranty
+  warranty,  
 }) => {
+  const navigate = useNavigate();
   const [imageSrc, setImageSrc] = useState(`/images/${sku}.jpg`);
   const [logoSrc, setLogoSrc] = useState(`/brands/${brandLogo?.trim() || "placeholder.jpg"}`);
 
@@ -41,6 +43,33 @@ const ProductCard = ({
     jpg: `/images/${sku}_${i}.jpg`,
     png: `/images/${sku}_${i}.png`
   }));
+
+  const [selectedQuantity, setSelectedQuantity] = useState(1);
+
+  const handleAddToCart = () => {
+    const existingCart = JSON.parse(localStorage.getItem("cart")) || [];
+    const productToAdd = {
+      sku,
+      productName,
+      price,
+      image: imageSrc, 
+      quantity: selectedQuantity,
+    };
+    
+    const existingItem = existingCart.find((p) => p.sku === sku);
+
+    const updatedCart = existingItem
+  ? existingCart.map((p) =>
+      p.sku === sku ? { ...p, quantity: p.quantity + selectedQuantity } : p
+    )
+  : [...existingCart, productToAdd];
+
+
+      
+  localStorage.setItem("cart", JSON.stringify(updatedCart));
+  window.dispatchEvent(new Event("storage"));
+    navigate("/cart");
+  };
 
   return (
     <div className={styles.card}>
@@ -101,15 +130,23 @@ const ProductCard = ({
         </div>
 
         <div className={styles.actions}>
-          <select className={styles.quantitySelect} defaultValue={1}>
-            {[...Array(10)].map((_, i) => (
-              <option key={i + 1} value={i + 1}>
-                {i + 1}
-              </option>
-            ))}
-          </select>
+        <select
+          className={styles.quantitySelect}
+          value={selectedQuantity}
+          onChange={(e) => setSelectedQuantity(parseInt(e.target.value))}
+        >
+          {[...Array(10)].map((_, i) => (
+            <option key={i + 1} value={i + 1}>
+              {i + 1}
+            </option>
+          ))}
+        </select>
 
-          <button className={styles.addToCart} title="הוסף לסל">
+          <button
+            className={styles.addToCart}
+            title="הוסף לסל"
+            onClick={handleAddToCart}
+          >          
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"

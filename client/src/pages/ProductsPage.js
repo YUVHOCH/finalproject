@@ -1,59 +1,199 @@
-// src/pages/ProductsPage.js
-import React, { useEffect, useState, useRef } from "react";
-import axios from "axios";
-import ProductCard from "../components/ProductCard";
-import { useSearch } from "../context/SearchContext";
+import React, { useEffect, useState } from "react";
 import styles from "../styles/ProductsPage.module.css";
-import TopTicker from "../components/TopTicker";
-import Header from "../pages/Header";
 import SearchStrip from "../components/SearchStrip";
-import useScrollDirection from "../hooks/useScrollDirection";
+import ProductCard from "../components/ProductCard";
+import axios from "axios";
+import { useSearch } from "../context/SearchContext"; // 🆕
+import { Link, useParams } from "react-router-dom";
+
 
 const ProductsPage = () => {
-  const [products, setProducts] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("");
-  const { searchTerm } = useSearch();
-  const scrollDirection = useScrollDirection();
-  const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
-  const observer = useRef();
+  const { searchTerm } = useSearch(); // 🆕
+  const { category, subcategory, subsubcategory } = useParams();
+  const [allProducts, setAllProducts] = useState([]);       // 🔁 כל הקטלוג
+  const [filteredProducts, setFilteredProducts] = useState([]); // ✅ רק הרלוונטיים לפי כתובת
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const res = await axios.get("http://localhost:8000/products");
-        setProducts(res.data.products);
+        const data = Array.isArray(res.data) ? res.data : res.data.products || [];
+        setAllProducts(data);
       } catch (err) {
-        console.error("Error fetching products:", err);
+        console.error("שגיאה בטעינת מוצרים", err);
+        setAllProducts([]);
       }
     };
+
     fetchProducts();
   }, []);
 
-  const filteredProducts = products.filter((p) => {
-    const s = searchTerm?.toLowerCase() || "";
-    const matchCategory =
-      selectedCategory === "" ||
-      p.category?.toLowerCase() === selectedCategory.toLowerCase();
-    const matchSearch =
-      p.productName?.toLowerCase().includes(s) ||
-      p.brand?.toLowerCase().includes(s) ||
-      p.sku?.toString().includes(s);
+  useEffect(() => {
+    let filtered = allProducts;
+  
+    // 🔍 אם יש חיפוש — מבטלים סינון לפי קטגוריות
+    if (searchTerm?.trim()) {
+      const lower = searchTerm.toLowerCase();
+      filtered = allProducts.filter(
+        (p) =>
+          p.productName?.toLowerCase().includes(lower) ||
+          p.brand?.toLowerCase().includes(lower) ||
+          p.sku?.toString().includes(lower)
+      );
+    } else {
+      // 🧭 אם אין חיפוש — מסננים לפי קטגוריות
+      if (category) filtered = filtered.filter(p => p.category === category);
+      if (subcategory) filtered = filtered.filter(p => p.subcategory === subcategory);
+      if (subsubcategory) filtered = filtered.filter(p => p.subsubcategory === subsubcategory);
+    }
+  
+    setFilteredProducts(filtered);
+  }, [allProducts, category, subcategory, subsubcategory, searchTerm]);
+  
+  
 
-    return matchCategory && matchSearch;
-  });
+  const getNextLevelCategories = () => {
+    if (!filteredProducts.length) return [];
+
+    if (subcategory && !subsubcategory) {
+      const items = filteredProducts.filter(p => p.category === category && p.subcategory === subcategory);
+      return [...new Set(items.map(p => p.subsubcategory))];
+    }
+
+    if (category && !subcategory) {
+      const items = filteredProducts.filter(p => p.category === category);
+      return [...new Set(items.map(p => p.subcategory))];
+    }
+
+    return [];
+  };
 
   return (
-       <main className={styles.mainContent}>
-         <div className={styles.productsGrid}>
-         {filteredProducts.map((prod) => {
-          console.log("🔎 מוצר:", prod); // ✅ כאן אתה רואה את כל השדות המועברים
-          return <ProductCard key={prod._id || prod.sku} {...prod} />;
-        })}
-
+    <main className={styles.pageWrapper}>
+      {/* 🟦 פס החיפוש — תמיד למעלה, רוחב מלא */}
+      <SearchStrip
+        categories={allProducts.map(p => ({
+          category: p.category,
+          subcategory: p.subcategory,
+          subsubcategory: p.subsubcategory
+        }))}
+      />
+  
+            {/* 🟨 תוכן: פילטרים + מוצרים */}
+            <div className={styles.contentWrapper}>
+              {/* פילטרים מצד ימין */}
+              <div className={styles.sidebarFilters}>
+        <div className={styles.filterGroup}>
+          <h4>מותג</h4>
+          <label className={styles.checkboxItem}>
+            <input type="checkbox" /> Gardena
+          </label>
+          <label className={styles.checkboxItem}>
+            <input type="checkbox" /> Ikra
+          </label>
+          <label className={styles.checkboxItem}>
+            <input type="checkbox" /> Husqvarna
+          </label>
+          <label className={styles.checkboxItem}>
+            <input type="checkbox" /> Solo
+          </label>
+          <label className={styles.checkboxItem}>
+            <input type="checkbox" /> Claber
+          </label>
+          <label className={styles.checkboxItem}>
+            <input type="checkbox" /> Hunter
+          </label>
+          <label className={styles.checkboxItem}>
+            <input type="checkbox" /> Water-On
+          </label>
         </div>
-      </main>
+
+        <div className={styles.filterGroup}>
+          <h4>טווח מחירים</h4>
+          <label className={styles.checkboxItem}>
+            <input type="checkbox" /> עד 100 ₪
+          </label>
+          <label className={styles.checkboxItem}>
+            <input type="checkbox" /> 100–250 ₪
+          </label>
+          <label className={styles.checkboxItem}>
+            <input type="checkbox" /> 251–500 ₪
+          </label>
+          <label className={styles.checkboxItem}>
+            <input type="checkbox" /> מעל 500 ₪
+          </label>
+        </div>
+      </div>
+
+        
+        {/* מוצרים מצד שמאל */}
+        <div className={styles.productsSection}>
+        <div className={styles.breadcrumb}>
+  <span className={styles.breadcrumbItem}>
+    <Link to="/">🏠</Link>
+  </span>
+  {searchTerm?.trim() ? (
+    <>
+      <span className={styles.breadcrumbSeparator}>›</span>
+      <span className={styles.breadcrumbItem}>תוצאות חיפוש</span>
+      <span className={styles.breadcrumbSeparator}>›</span>
+      <span className={styles.breadcrumbCurrent}>{searchTerm}</span>
+    </>
+  ) : (
+    <>
+      {category && (
+        <>
+          <span className={styles.breadcrumbSeparator}>›</span>
+          <span className={styles.breadcrumbItem}>{category}</span>
+        </>
+      )}
+      {subcategory && (
+        <>
+          <span className={styles.breadcrumbSeparator}>›</span>
+          <span className={styles.breadcrumbItem}>{subcategory}</span>
+        </>
+      )}
+      {subsubcategory && (
+        <>
+          <span className={styles.breadcrumbSeparator}>›</span>
+          <span className={styles.breadcrumbCurrent}>{subsubcategory}</span>
+        </>
+      )}
+    </>
+  )}
+</div>
+ 
+        <h2 className={styles.pageTitle}>
+          תוצאות עבור:{" "}
+          {searchTerm?.trim()
+            ? `"${searchTerm}"`
+            : subsubcategory || subcategory || category || "כל המוצרים"}
+        </h2>
+  
+          {(!subsubcategory && (subcategory || category)) && (
+            <div className={styles.categoryIconsWrapper}>
+              {getNextLevelCategories().map((name, i) => (
+                <div key={i} className={styles.categoryIconBox}>
+                  <img
+                    src={`/categories/${name}.jpg`}
+                    alt={name}
+                    className={styles.categoryIconImage}
+                  />
+                  <span>{name}</span>
+                </div>
+              ))}
+            </div>
+          )}
+  
+          <div className={styles.productsGrid}>
+            {filteredProducts.map(prod => (
+              <ProductCard key={prod.sku} {...prod} />
+            ))}
+          </div>
+        </div>
+      </div>
+    </main>
   );
-};
+  };
 
 export default ProductsPage;

@@ -29,6 +29,26 @@ router.get('/sku/:sku', async (req, res) => {
   }
 });
 
+// 📊 שליפת מספר מוצרים פעילים לפי תת-תת-קטגוריה
+router.get("/category-counts", async (req, res) => {
+  try {
+    const result = await Product.aggregate([
+      { $match: { active: true } },
+      {
+        $group: {
+          _id: "$subsubcategory",
+          count: { $sum: 1 }
+        }
+      },
+      { $sort: { _id: 1 } }
+    ]);
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ message: "Server error", error: err });
+  }
+});
+
+
 // 🔄 נתיבים רגילים
 router.get('/', getAllProducts); // ⚠️ אל תגדיר עוד GET /products במקום אחר
 router.post('/', addProducts);

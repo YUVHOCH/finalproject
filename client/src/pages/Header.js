@@ -1,5 +1,5 @@
 // pages/Header.js
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import styles from "../styles/Header.module.css";
@@ -23,12 +23,29 @@ const Header = () => {
   };
 
   const closeMenu = () => setMenuOpen(false);
+  
+  const [cartCount, setCartCount] = useState(0);
+
+  useEffect(() => {
+    const updateCartCount = () => {
+      const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+      const count = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+      setCartCount(count);
+    };
+
+    updateCartCount();
+
+    window.addEventListener("storage", updateCartCount);
+    return () => window.removeEventListener("storage", updateCartCount);
+  }, []);
 
   return (
     <header className={styles["header-container"]}>
       <div className={styles["header-inner"]}>
         <div className={styles.headerLeftSection}>
+        <Link to="/">
           <img src={logo} alt="Logo" className={styles.headerLogo} />
+        </Link>
           <div className={styles.headerUserInfo}>
           <p className={styles.headerUsername}>
             {t("header.hello")}, {user?.username || t("header.guest")}
@@ -57,17 +74,24 @@ const Header = () => {
           ☰
         </div>
 
-        <div className={styles["header-rightSection"]}>
-          <div className={styles["header-icon"]}>
+          <div className={styles["header-rightSection"]}>
+          {/* עגלת קניות */}
+          <Link to="/cart" className={styles["header-icon"]}>
             <img src={cartIcon} alt="Cart" />
-            <span className={styles["header-cartCount"]}>0</span>
-          </div>
-          <div className={styles["header-icon"]}>
+            {cartCount > 0 && (
+              <span className={styles["header-cartCount"]}>{cartCount}</span>
+            )}
+          </Link>
+
+          {/* רשימת משאלות */}
+          <Link to="/wishlist" className={styles["header-icon"]}>
             <img src={wishlistIcon} alt="Wishlist" />
-          </div>
-          <div className={styles["header-icon"]}>
+          </Link>
+
+          {/* התחברות */}
+          <Link to="/login" className={styles["header-icon"]}>
             <img src={loginIcon} alt="Login" />
-          </div>
+          </Link>
         </div>
       </div>
 

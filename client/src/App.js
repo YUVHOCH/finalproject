@@ -16,6 +16,8 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import useScrollDirection from "./hooks/useScrollDirection";
 import { SearchProvider } from "./context/SearchContext";
 import ProductPage from "./pages/ProductPage";
+import CartPage from "./pages/CartPage";
+import ShippingPolicy from "./pages/ShippingPolicy";
 
 function App() {
   const scrollDirection = useScrollDirection();
@@ -37,6 +39,9 @@ function App() {
               <Route path="/login" element={<LoginPage />} />
               <Route path="/admin/*"element={<ProtectedRoute requiredRole="admin"><Admin /></ProtectedRoute>}/>
               <Route path="/product/:sku" element={<ProductPage />} />
+              <Route path="/products/:category?/:subcategory?/:subsubcategory?" element={<ProductsPage />} />
+              <Route path="/cart" element={<CartPage />} />
+              <Route path="/shippingpolicy" element={<ShippingPolicy />} />
             </Routes>
   
             <footer className={styles.footer}>© 2025 My Garden Shop</footer>

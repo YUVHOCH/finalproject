@@ -41,7 +41,10 @@ const ProductPage = () => {
 
   return (
     <main className={styles.pageWrapper}>
+      <div className={styles.searchStripWrapper}>
         <SearchStrip />
+      </div>
+ 
        <div className={styles.topSection}>
 
        <div className={styles.imageSection}>

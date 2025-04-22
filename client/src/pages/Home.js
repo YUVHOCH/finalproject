@@ -24,12 +24,14 @@ const Home = () => {
 
   const selectedPath = [params.level1, params.level2, params.level3].filter(Boolean);
   const selectedCategory = selectedPath[selectedPath.length - 1] || "";
-  const categories = products.map(p => ({
-    category: p.category,
-    subcategory: p.subcategory,
-    subsubcategory: p.subsubcategory
-  }));
-
+  const categories = Array.isArray(products)
+  ? products.map(p => ({
+      category: p.category,
+      subcategory: p.subcategory,
+      subsubcategory: p.subsubcategory
+    }))
+  : [];
+  
   useEffect(() => {
     const fetchProducts = async () => {
       try {

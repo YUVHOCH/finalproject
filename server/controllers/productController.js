@@ -4,13 +4,16 @@ const Product = require('../models/Product');
 const getAllProducts = async (req, res) => {
   try {
     const search = req.query.search?.toLowerCase() || "";
-    const category = req.query.category?.toLowerCase() || "";
+    const categoryParam = req.query.category || "";
+    const subcategoryParam = req.query.subcategory || "";
+    const subsubcategoryParam = req.query.subsubcategory || "";
+
     const query = {};
 
     if (search) {
       const skuAsNumber = Number(search);
       const skuCondition = !isNaN(skuAsNumber) ? { sku: skuAsNumber } : null;
-    
+
       query.$or = [
         { productName: new RegExp(search, "i") },
         { brand: new RegExp(search, "i") },
@@ -18,17 +21,24 @@ const getAllProducts = async (req, res) => {
       ];
     }
 
-    if (category) {
-      query.category = new RegExp(category, "i");
+    if (categoryParam) {
+      query.category = new RegExp(categoryParam, "i");
+    }
+    if (subcategoryParam) {
+      query.subcategory = new RegExp(subcategoryParam, "i");
+    }
+    if (subsubcategoryParam) {
+      query.subsubcategory = new RegExp(subsubcategoryParam, "i");
     }
 
-    const products = await Product.find(query); // ❌ ללא skip/limit
-    res.json({ products });
+    const products = await Product.find(query);
+    res.json({ products }); // ✅ עטוף באובייקט
   } catch (error) {
     console.error("❌ Error in getAllProducts:", error.message);
     res.status(500).json({ message: error.message });
   }
 };
+
 
 
 // ➕ הוספת מוצרים חדשים (POST /products)
