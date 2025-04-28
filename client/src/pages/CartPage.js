@@ -45,6 +45,7 @@ const CartPage = () => {
     const updatedCart = cartItems.filter(item => item.sku !== sku);
     setCartItems(updatedCart);
     localStorage.setItem("cart", JSON.stringify(updatedCart));
+    window.dispatchEvent(new Event("storage"));
   };
 
   const [shippingMethod, setShippingMethod] = useState("delivery");

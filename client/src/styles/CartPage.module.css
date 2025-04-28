@@ -177,6 +177,8 @@
     border-radius: 4px;
     cursor: pointer;
     margin-bottom: 12px;
+    font-size: 16px;
+    font-weight: bold;
   }
   
   .payButton {

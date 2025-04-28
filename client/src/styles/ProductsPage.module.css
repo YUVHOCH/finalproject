@@ -1,3 +1,4 @@
+/*client\src\styles\ProductsPage.module.css*/
 /* 🧱 עמוד שלם */
 .pageWrapper {
   padding: 40px;
@@ -82,8 +83,9 @@
 /* 🧱 גריד מוצרים – שלוט בגודל הכרטיס כאן */
 .productsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
   gap: 24px;
+  justify-content: start;
 }
 
 .filterGroup {
