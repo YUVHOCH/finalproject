@@ -20,6 +20,7 @@ const productSchema = new mongoose.Schema({
   longDescription: String,
   country: String,
   warranty: String,
+  isSale: { type: Boolean, default: false },
   dateCreation: { type: Date, default: Date.now }
 });
 

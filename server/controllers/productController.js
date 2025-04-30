@@ -31,15 +31,17 @@ const getAllProducts = async (req, res) => {
       query.subsubcategory = new RegExp(subsubcategoryParam, "i");
     }
 
-    const products = await Product.find(query);
-    res.json({ products }); // ✅ עטוף באובייקט
+    const products = await Product.find(query)
+      .select('sku productName brand brandLogo model price priceInstead shortDescription country warranty category subcategory subsubcategory isSale')
+      .lean()
+      .exec();
+
+    res.json({ products });
   } catch (error) {
     console.error("❌ Error in getAllProducts:", error.message);
     res.status(500).json({ message: error.message });
   }
 };
-
-
 
 // ➕ הוספת מוצרים חדשים (POST /products)
 const addProducts = async (req, res) => {

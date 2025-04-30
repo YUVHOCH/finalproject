@@ -8,6 +8,11 @@ import cartIcon from "../assets/cart.png";
 import wishlistIcon from "../assets/wishlist.png";
 import loginIcon from "../assets/login.png";
 import { useTranslation } from "react-i18next";
+import { IoMdContacts } from "react-icons/io";
+import { MdWork } from "react-icons/md";
+import { FaIndustry } from "react-icons/fa";
+import { FaNewspaper } from "react-icons/fa";
+import { FaPercent } from "react-icons/fa";
 
 const Header = () => {
   const { t } = useTranslation();
@@ -60,12 +65,12 @@ const Header = () => {
         </div>
 
         <nav className={styles["header-nav"]}>
-        <Link to="/">{t("header.home")}</Link>
-        <Link to="/products">{t("header.products")}</Link>
-        <Link to="/brands">{t("header.brands")}</Link>
         <Link to="/contact">{t("header.contact")}</Link>
+        <Link to="/jobs">{t("header.jobs")}</Link>
+        <Link to="/brands">{t("header.brands")}</Link>
+        <Link to="/articles">{t("header.articles")}</Link>
+        <Link to="/sales">{t("header.sales")}</Link>
 
-        {!user && <Link to="/login">{t("header.login")}</Link>}
         {!user && <Link to="/register">{t("header.register")}</Link>}
         {user?.role === "admin" && <Link to="/admin">{t("header.admin")}</Link>}
         </nav>

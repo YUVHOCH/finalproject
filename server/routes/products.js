@@ -138,4 +138,117 @@ router.post('/admin/update-models', upload.single("excelFile"), async (req, res)
   }
 });
 
+// הוספת הנתיב החדש לעדכון שדה isSale
+router.post('/admin/update-issale-field', async (req, res) => {
+  try {
+    const result = await Product.updateMany(
+      { isSale: { $exists: false } },
+      { $set: { isSale: false } }
+    );
+
+    res.status(200).json({ 
+      message: "✅ השדה isSale עודכן בהצלחה", 
+      modifiedCount: result.modifiedCount 
+    });
+  } catch (error) {
+    console.error("❌ שגיאה בעדכון שדה isSale:", error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// נתיב חדש לאתחול שדה isSale בכל המוצרים
+router.post('/admin/init-sale-field', async (req, res) => {
+  try {
+    // מעדכן את כל המוצרים - מוסיף שדה isSale אם לא קיים
+    const result = await Product.updateMany(
+      { isSale: { $exists: false } },  // רק למוצרים שאין להם את השדה
+      { $set: { isSale: false } }
+    );
+
+    res.json({
+      message: "✅ שדה isSale אותחל בהצלחה",
+      modifiedCount: result.modifiedCount,
+      matchedCount: result.matchedCount
+    });
+  } catch (error) {
+    console.error("שגיאה באתחול שדה isSale:", error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// הוספת הנתיב החדש לעדכון מוצר במבצע
+router.post('/test-sale', async (req, res) => {
+  try {
+    const testSku = 61906750;
+    console.log("מנסה לעדכן מוצר למבצע:", testSku);  // לוג לדיבוג
+    
+    const result = await Product.findOneAndUpdate(
+      { sku: testSku },
+      { $set: { isSale: true } },
+      { new: true }
+    );
+
+    if (!result) {
+      console.log("מוצר לא נמצא");  // לוג לדיבוג
+      return res.status(404).json({ message: "מוצר לא נמצא" });
+    }
+
+    console.log("מוצר עודכן בהצלחה:", result);  // לוג לדיבוג
+    res.json({
+      message: "✅ המוצר עודכן בהצלחה",
+      product: result
+    });
+
+  } catch (error) {
+    console.error("שגיאה בעדכון המוצר:", error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// הוספת הנתיב החדש להוספת שדה isSale לכל המוצרים
+router.post('/init-sale-field', async (req, res) => {
+  try {
+    // מעדכן את כל המוצרים שאין להם שדה isSale
+    const result = await Product.updateMany(
+      { isSale: { $exists: false } },  // מוצא את כל המוצרים ללא שדה isSale
+      { $set: { isSale: false } }      // מגדיר להם ברירת מחדל false
+    );
+
+    res.json({
+      message: "✅ השדה isSale הוגדר בהצלחה לכל המוצרים",
+      modifiedCount: result.modifiedCount
+    });
+
+  } catch (error) {
+    console.error("שגיאה בהוספת שדה isSale:", error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// נתיב לעדכון סטטוס מבצע למוצר לפי מק"ט
+router.post('/update-sale-status', async (req, res) => {
+  try {
+    const { sku, isSale } = req.body;
+    
+    const result = await Product.findOneAndUpdate(
+      { sku: sku },
+      { $set: { isSale: isSale } },
+      { new: true }
+    );
+
+    if (!result) {
+      return res.status(404).json({ message: "מוצר לא נמצא" });
+    }
+
+    res.json({
+      message: `✅ סטטוס המבצע של המוצר ${sku} עודכן ל-${isSale}`,
+      product: result
+    });
+
+  } catch (error) {
+    console.error("שגיאה בעדכון סטטוס מבצע:", error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
 module.exports = router;

@@ -9,5 +9,10 @@
   "devDependencies": {
     "concurrently": "^8.2.0",
     "nodemon": "^3.0.1"
+  },
+  "dependencies": {
+    "react-lazy-load-image-component": "^1.6.3",
+    "react-virtualized-auto-sizer": "^1.0.26",
+    "react-window": "^1.8.11"
   }
-} 
+}

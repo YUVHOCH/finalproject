@@ -1,31 +1,31 @@
 /*client\src\styles\ProductsPage.module.css*/
 /* 🧱 עמוד שלם */
 .pageWrapper {
-  padding: 40px;
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-  padding-top: 0;       /* הוסף אם לא קיים */
-  margin-top: 0;        /* הוסף אם לא קיים */
+  max-width: 100%;
+  padding: 0 40px;
+  overflow-x: hidden;
 }
 
 /* 🧱 תוכן פנימי: פילטרים מימין, מוצרים משמאל */
 .contentWrapper {
-  display: grid;
-  grid-template-columns: 300px 1fr; /* ← שחק עם רוחב הסיידבר כאן */
-  gap: 24px;
+  display: flex;
+  gap: 32px;
   direction: rtl;
+  width: 100%;
+  position: relative;
 }
 
 /* 🎚️ סיידבר פילטרים */
 .sidebarFilters {
+  width: 250px;
+  flex-shrink: 0;
   background: #fafafa;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  align-self: flex-start;
   position: sticky;
   top: 120px;
-  height: fit-content;
 }
 
 .sidebarFilters h3 {
@@ -48,8 +48,9 @@
 
 /* 📦 אזור המוצרים */
 .productsSection {
-  display: flex;
-  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
 }
 
 /* 🏷️ כותרת */
@@ -83,9 +84,9 @@
 /* 🧱 גריד מוצרים – שלוט בגודל הכרטיס כאן */
 .productsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: 24px;
-  justify-content: start;
+  width: 100%;
 }
 
 .filterGroup {
@@ -151,6 +152,27 @@
 .breadcrumbCurrent {
   font-weight: bold;
   color: #000;
+}
+
+/* תיקון הכפתורים בתוך ProductCard */
+:global(.card) {
+  width: 100%;
+  max-width: 100%;
+}
+
+:global(.actions) {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+
+:global(.addToCart) {
+  flex: 1;
+}
+
+:global(.detailsButton) {
+  width: 80px;
+  flex-shrink: 0;
 }
 
 
