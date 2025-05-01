@@ -16,8 +16,8 @@ const SaleProducts = () => {
       try {
         setLoading(true);
         const productsResponse = await axios.get('http://localhost:8000/products');
-        const allProducts = Array.isArray(productsResponse.data) 
-          ? productsResponse.data 
+        const allProducts = Array.isArray(productsResponse.data)
+          ? productsResponse.data
           : productsResponse.data.products || [];
 
         const categoriesMap = new Map();
@@ -55,25 +55,25 @@ const SaleProducts = () => {
   return (
     <>
       <SearchStrip categories={categories} />
-      
+
       <div className={styles.pageContainer}>
         <div className={styles.bannerContainer}>
-          <img 
-            src={bannerImage} 
+          <img
+            src={bannerImage}
             alt="Sale Banner"
           />
         </div>
 
         <h2 className={styles.title}>מוצרים במבצע 🔥</h2>
 
-        <div className={styles.productsGrid}>
+        <div className={styles.container_productgrid}>
           {loading ? (
             <div className={styles.loadingContainer}>
               <div className={styles.spinner}></div>
             </div>
           ) : products && products.length > 0 ? (
             products.map((product) => (
-              <ProductCard 
+              <ProductCard
                 key={product._id}
                 sku={product.sku}
                 productName={product.productName}

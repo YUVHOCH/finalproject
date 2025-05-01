@@ -10,7 +10,7 @@ import { useSearch } from "../context/SearchContext";
 import axios from "axios";
 import CategoryMenu from "../components/CategoryMenu";
 import commonStyles from "../styles/common.module.css";
-
+import FeaturedCategories from "../components/FeaturedCategories";
 
 const Home = () => {
   const { t } = useTranslation();
@@ -18,8 +18,6 @@ const Home = () => {
   const params = useParams();
   const { searchTerm, setSearchTerm } = useSearch();
   const [showMenu, setShowMenu] = useState(false);
-
-
   const [products, setProducts] = useState([]);
   const [limit, setLimit] = useState(100);
   const [loading, setLoading] = useState(true);
@@ -27,12 +25,12 @@ const Home = () => {
   const selectedPath = [params.level1, params.level2, params.level3].filter(Boolean);
   const selectedCategory = selectedPath[selectedPath.length - 1] || "";
   const categories = Array.isArray(products)
-  ? products.map(p => ({
-      category: p.category,
-      subcategory: p.subcategory,
-      subsubcategory: p.subsubcategory
-    }))
-  : [];
+    ? products.map(p => ({
+        category: p.category,
+        subcategory: p.subcategory,
+        subsubcategory: p.subsubcategory
+      }))
+    : [];
   
   useEffect(() => {
     const fetchProducts = async () => {
@@ -40,8 +38,6 @@ const Home = () => {
         setLoading(true);
         const res = await axios.get("http://localhost:8000/products");
         const data = Array.isArray(res.data) ? res.data : res.data.products || [];
-        console.log("דוגמה למוצר ראשון:", data[0]);  // נראה מוצר לדוגמה
-        console.log("האם יש שדה isSale?", data.some(p => p.isSale !== undefined));  // נבדוק אם יש בכלל שדה כזה
         setProducts(data);
       } catch (err) {
         console.error("שגיאה בטעינת מוצרים", err);
@@ -76,15 +72,10 @@ const Home = () => {
         p.brand?.toLowerCase().includes(s) ||
         p.sku?.toString().includes(s);
 
-      // בינתיים בלי פילטור של isSale
       return matchCategory && matchSearch;
     });
 
-  console.log("Total products before limit:", filteredProducts.length);
-  
-  // נשים את ה-limit בנפרד
   const productsToShow = filteredProducts.slice(0, limit);
-  console.log("Products after limit:", productsToShow.length);
 
   return (
     <div className={styles.pageWrapper}>
@@ -95,7 +86,8 @@ const Home = () => {
       <main className={styles.mainContent}>
         <SearchStrip categories={categories} />
         <HeroBanner />
-
+        <FeaturedCategories />
+        
         <div className={styles.limitRow}>
           <label htmlFor="limitInput" className={styles.limitLabel}>
             {t("searchBar.limitItems")}:
