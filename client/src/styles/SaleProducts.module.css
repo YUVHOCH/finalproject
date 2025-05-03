@@ -3,10 +3,12 @@
   width: 100%;
   max-width: 1800px;  /* מגביל את הרוחב המקסימלי */
   margin: 0 auto;     /* מרכז את התוכן */
-  padding: 0 40px;    /* מרווח מהצדדים */
+  padding: 0 0px;    /* מרווח מהצדדים */
   box-sizing: border-box; /* חשוב! מונע גלישה */
   direction: rtl;
   overflow-x: hidden; /* מונע גלישה אופקית */
+  position: relative;
+  z-index: 1;
 }
 
 /* באנר */
@@ -31,24 +33,31 @@ margin-top: 20px;
 /* מיכל גריד מוצרים */
 .container_productgrid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* התחלה עם 4 מוצרים */
+  grid-template-columns: repeat(3, 1fr); /* שלושה מוצרים בשורה */
   gap: 20px;
   width: 100%;
   box-sizing: border-box;
   margin: 0 auto;
 }
 
-/* סגנון מותאם לכרטיס המוצר */
-:global(.card) {
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
-  margin: 0;
-  padding: 15px;
-  overflow: hidden; /* מונע גלישת תוכן */
-  display: flex;
-  flex-direction: row-reverse;
-  gap: 10px;
+/* סגנון לכרטיס מוצר */
+.productCard {
+  position: relative;
+}
+
+/* סגנונות לפלאח */
+:global(.flachContainer) {
+  position: absolute !important;
+  top: 5px !important;
+  right: 5px !important;
+  z-index: 2 !important;
+  pointer-events: none;
+}
+
+:global(.flachImage) {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
 }
 
 /* הגדרות לתמונה */
@@ -59,7 +68,7 @@ margin-top: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0;
+  margin-top: 0;
 }
 
 :global(.card) .mainImage {

@@ -32,7 +32,7 @@ const getAllProducts = async (req, res) => {
     }
 
     const products = await Product.find(query)
-      .select('sku productName brand brandLogo model price priceInstead shortDescription country warranty category subcategory subsubcategory isSale')
+      .select('sku productName brand brandLogo model price priceInstead shortDescription country warranty category subcategory subsubcategory isSale homeSaleProducts image')
       .lean()
       .exec();
 

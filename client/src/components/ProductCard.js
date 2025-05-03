@@ -18,7 +18,10 @@ const ProductCard = ({
   shortDescription,
   longDescription,
   country,
-  warranty,  
+  warranty,
+  className,
+  isSale,
+  homeSaleProducts,
 }) => {
   const navigate = useNavigate();
   const [imageSrc, setImageSrc] = useState(`/images/${sku}.jpg`);
@@ -73,7 +76,18 @@ const ProductCard = ({
   };
 
   return (
-    <div className={styles.card}>
+    <div className={`${styles.card} ${className || ''}`}>
+      {/* פלאח מבצע */}
+      {(isSale || homeSaleProducts) && (
+        <div className={styles.flachContainer} style={{ zIndex: 2 }}>
+          <img
+            src="/flach/sale.gif"
+            alt="מבצע"
+            className={styles.flachImage}
+          />
+        </div>
+      )}
+
       {/* 🖼 תמונה ראשית מימין */}
       <div className={styles.imageSection}>
       <div className={styles.imageWrapper}>

@@ -18,9 +18,11 @@ const productSchema = new mongoose.Schema({
   titleDescription: String,
   shortDescription: String,
   longDescription: String,
+
   country: String,
   warranty: String,
   isSale: { type: Boolean, default: false },
+  homeSaleProducts: { type: Boolean, default: false },
   dateCreation: { type: Date, default: Date.now }
 });
 

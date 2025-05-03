@@ -176,7 +176,7 @@ router.post('/admin/init-sale-field', async (req, res) => {
   }
 });
 
-// הוספת הנתיב החדש לעדכון מוצר במבצע
+// הוספת הנתיב החדש לעדכון המוצר במבצע
 router.post('/test-sale', async (req, res) => {
   try {
     const testSku = 61906750;
@@ -247,6 +247,58 @@ router.post('/update-sale-status', async (req, res) => {
 
   } catch (error) {
     console.error("שגיאה בעדכון סטטוס מבצע:", error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// 🏷️ Update homeSaleProducts field for specific products
+router.post('/admin/update-homesale', async (req, res) => {
+  try {
+    const { skus, value = true } = req.body;
+
+    if (!skus || !Array.isArray(skus)) {
+      return res.status(400).json({
+        message: "❌ נא לספק מערך של מק\"טים"
+      });
+    }
+
+    const result = await Product.updateMany(
+      { sku: { $in: skus } },
+      { $set: { homeSaleProducts: value } }
+    );
+
+    return res.status(200).json({
+      message: `✅ עודכנו ${result.modifiedCount} מוצרים בהצלחה`,
+      updatedCount: result.modifiedCount,
+      matchedCount: result.matchedCount
+    });
+
+  } catch (error) {
+    console.error("❌ שגיאה בעדכון מוצרי מבצע:", error);
+    res.status(500).json({ 
+      message: "שגיאה בעדכון מוצרי מבצע", 
+      error: error.message 
+    });
+  }
+});
+
+// 🏷️ אתחול שדה homeSaleProducts לכל המוצרים
+router.post('/admin/init-homesale-field', async (req, res) => {
+  try {
+    // מעדכן את כל המוצרים שאין להם שדה homeSaleProducts
+    const result = await Product.updateMany(
+      { homeSaleProducts: { $exists: false } },  // מוצא את כל המוצרים ללא שדה homeSaleProducts
+      { $set: { homeSaleProducts: false } }      // מגדיר להם ברירת מחדל false
+    );
+
+    res.json({
+      message: "✅ השדה homeSaleProducts הוגדר בהצלחה לכל המוצרים",
+      modifiedCount: result.modifiedCount,
+      matchedCount: result.matchedCount
+    });
+
+  } catch (error) {
+    console.error("❌ שגיאה בהוספת שדה homeSaleProducts:", error);
     res.status(500).json({ message: error.message });
   }
 });

@@ -1,14 +1,32 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import styles from "../styles/ProductPage.module.css";
 import reviewImage from "../assets/reviews.jpg";
+import addToCartImage from "../assets/addtocart.jpg";
 import SearchStrip from "../components/SearchStrip";
+import axios from "axios";
 
 const ProductPage = () => {
   const { sku } = useParams();
+  const navigate = useNavigate();
   const [product, setProduct] = useState(null);
   const [imageSrc, setImageSrc] = useState("");
   const [quantity, setQuantity] = useState(1);
+  const [allProducts, setAllProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchAllProducts = async () => {
+      try {
+        const res = await axios.get("http://localhost:8000/products");
+        const data = Array.isArray(res.data) ? res.data : res.data.products || [];
+        setAllProducts(data);
+      } catch (err) {
+        console.error("שגיאה בטעינת מוצרים", err);
+        setAllProducts([]);
+      }
+    };
+    fetchAllProducts();
+  }, []);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -32,6 +50,35 @@ const ProductPage = () => {
     }
   };
 
+  // פונקציה להוספה לסל
+  const handleAddToCart = () => {
+    try {
+      const existingCart = JSON.parse(localStorage.getItem("cart")) || [];
+      const productToAdd = {
+        sku: product.sku,
+        productName: product.productName,
+        price: product.price,
+        image: imageSrc,
+        quantity: quantity,
+      };
+      
+      const existingItem = existingCart.find((p) => p.sku === sku);
+      
+      const updatedCart = existingItem
+        ? existingCart.map((p) =>
+            p.sku === sku ? { ...p, quantity: p.quantity + quantity } : p
+          )
+        : [...existingCart, productToAdd];
+      
+      localStorage.setItem("cart", JSON.stringify(updatedCart));
+      window.dispatchEvent(new Event("storage"));
+      navigate("/cart");
+    } catch (error) {
+      console.error("שגיאה בהוספה לסל:", error);
+      alert("אירעה שגיאה בהוספה לסל");
+    }
+  };
+
   if (!product) return <div>טוען מוצר...</div>;
 
   const thumbnails = [1, 2, 3, 4, 5].map((i) => ({
@@ -42,12 +89,17 @@ const ProductPage = () => {
   return (
     <main className={styles.pageWrapper}>
       <div className={styles.searchStripWrapper}>
-        <SearchStrip />
+        <SearchStrip
+          categories={allProducts.map(p => ({
+            category: p.category,
+            subcategory: p.subcategory,
+            subsubcategory: p.subsubcategory
+          }))}
+        />
       </div>
- 
-       <div className={styles.topSection}>
 
-       <div className={styles.imageSection}>
+      <div className={styles.topSection}>
+        <div className={styles.imageSection}>
           <div className={styles.imageWrapper}>
             <img
               src={imageSrc}
@@ -78,8 +130,7 @@ const ProductPage = () => {
           </div>
         </div>
 
-  
-       <div className={styles.details}>
+        <div className={styles.details}>
           <img
             src={`/brands/${product.brandLogo?.trim() || "placeholder.jpg"}`}
             alt={product.brand}
@@ -97,16 +148,16 @@ const ProductPage = () => {
           />
 
           <div className={styles.priceBox}>
-          <span className={styles.price}>
-            {(Math.floor(product.price * 10) / 10).toFixed(2)} ₪
-          </span>           
-          {product.priceInstead && (
-            <span className={styles.priceInstead}>{Math.round(product.priceInstead)} ₪</span>
+            <span className={styles.price}>
+              {(Math.floor(product.price * 10) / 10).toFixed(2)} ₪
+            </span>           
+            {product.priceInstead && (
+              <span className={styles.priceInstead}>{Math.round(product.priceInstead)} ₪</span>
             )}
           </div>
 
           <div className={styles.actions}>
-          <select
+            <select
               value={quantity}
               onChange={(e) => setQuantity(Number(e.target.value))}
               className={styles.quantitySelect}
@@ -117,20 +168,13 @@ const ProductPage = () => {
                 </option>
               ))}
             </select>
-            <button className={styles.addToCart} title="הוסף לסל">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#ffffff" viewBox="0 0 24 24">
-                <path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 
-                2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-2 
-                .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM7.16 
-                12l.84 2h8.9c.75 0 1.41-.41 
-                1.75-1.03l3.24-5.97A1 1 0 0021 
-                6H5.21l-.94-2H1v2h2l3.6 
-                7.59-1.35 2.44C5.16 16.37 5 
-                16.68 5 17a2 2 0 002 2h12v-2H7.42c-.14 
-                0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 
-                0 1.41-.41 1.75-1.03L23 6H6.16z" />
-              </svg>
-            </button>
+            <img 
+              src={addToCartImage}
+              alt="הוסף לסל"
+              onClick={handleAddToCart}
+              className={styles.addToCart}
+              style={{ cursor: 'pointer' }}
+            />
           </div>
 
           <img src={reviewImage} alt="ביקורות" className={styles.review} />
@@ -141,20 +185,16 @@ const ProductPage = () => {
             {product.brand && <>מותג: {product.brand} | </>}
             {product.country && <>ארץ יצור: {product.country} | </>}
             {product.warranty && <>אחריות: {product.warranty}</>}
-            <p className={styles.caterorylist}>
+          </p>
+          <p className={styles.caterorylist}>
             {product.category && <> {product.category}</>}
             {product.subcategory && <> / {product.subcategory}</>}
             {product.subsubcategory && <> / {product.subsubcategory}</>}
-            </p>
           </p>
         </div>
       </div>
-       
 
-     
-
-        
-        {/* תיאור ארוך */}
+      {/* תיאור ארוך */}
       <div className={styles.fullDescription}>
         <h2>תיאור מוצר</h2>
         <div dangerouslySetInnerHTML={{ __html: product.longDescription }} />

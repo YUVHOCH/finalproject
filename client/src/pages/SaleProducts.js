@@ -64,7 +64,7 @@ const SaleProducts = () => {
           />
         </div>
 
-        <h2 className={styles.title}>מוצרים במבצע 🔥</h2>
+        <h2 className={styles.title}>המבצעים שלנו 🔥</h2>
 
         <div className={styles.container_productgrid}>
           {loading ? (
@@ -87,6 +87,8 @@ const SaleProducts = () => {
                 longDescription={product.longDescription}
                 country={product.country}
                 warranty={product.warranty}
+                isSale={true}
+                className={styles.productCard}
               />
             ))
           ) : (

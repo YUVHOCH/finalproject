@@ -134,7 +134,10 @@ const AdminProducts = () => {
             <th className="border px-2 py-1">Instead</th>
             <th className="border px-2 py-1">Image</th>
             <th className="border px-2 py-1">Active</th>
+            <th className="border px-2 py-1">isSale</th>
+            <th className="border px-2 py-1">homeSaleProducts</th>
             <th className="border px-2 py-1">Actions</th>
+           
           </tr>
         </thead>
         
@@ -159,6 +162,8 @@ const AdminProducts = () => {
               <td className="border px-2 py-1">
                 <img src={prod.image} alt="pic" width="50" />
               </td>
+              <td className="border px-2 py-1">{prod.isSale? "✅" : "❌"}</td>
+              <td className="border px-2 py-1">{prod.homeSaleProducts? "✅" : "❌"}</td>
               <td className="border px-2 py-1">{prod.active ? "✅" : "❌"}</td>
               <td className="border px-2 py-1">
                 <button onClick={() => handleEdit(prod.sku)} className="text-blue-600">Edit</button> |{" "}

@@ -11,6 +11,8 @@ import axios from "axios";
 import CategoryMenu from "../components/CategoryMenu";
 import commonStyles from "../styles/common.module.css";
 import FeaturedCategories from "../components/FeaturedCategories";
+import MiddleBanners from "../components/MiddleBanners";
+import HomeSaleProducts from "../components/HomeSaleProducts";
 
 const Home = () => {
   const { t } = useTranslation();
@@ -78,6 +80,7 @@ const Home = () => {
   const productsToShow = filteredProducts.slice(0, limit);
 
   return (
+    
     <div className={styles.pageWrapper}>
       <div className={styles.stickyHeader}>
         <header className={styles.siteHeader}> {/* לוגו / ניווט */} </header>
@@ -87,8 +90,12 @@ const Home = () => {
         <SearchStrip categories={categories} />
         <HeroBanner />
         <FeaturedCategories />
-        
-        <div className={styles.limitRow}>
+        <MiddleBanners />
+        <HomeSaleProducts />
+
+        <h2 className={styles.yoursProducts}> מוצרים שיעניינו אותך</h2>
+
+        {/*<div className={styles.limitRow}>
           <label htmlFor="limitInput" className={styles.limitLabel}>
             {t("searchBar.limitItems")}:
           </label>
@@ -102,18 +109,20 @@ const Home = () => {
             className={styles.limitInput}
           />
         </div>
-
+       
         {loading ? (
           <div className={commonStyles.loadingContainer}>
             <div className={commonStyles.spinner}></div>
           </div>
-        ) : (
+        ) : 
+        
+        (
           <div className={styles.productsGrid}>
             {productsToShow.map((prod) => (
               <ProductCard key={prod._id || prod.sku} {...prod} />
             ))}
           </div>
-        )}
+        )}*/}
       </main>
     </div>
   );
