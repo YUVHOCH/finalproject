@@ -187,7 +187,11 @@ const ProductsPage = () => {
               )}
               <div className={styles.productsGrid}>
                 {filteredProducts.map(prod => (
-                  <ProductCard key={prod.sku} {...prod} />
+                  <ProductCard 
+                    key={prod.sku} 
+                    {...prod}
+                    className={styles.categoryProductCard}
+                  />
                 ))}
               </div>
             </>

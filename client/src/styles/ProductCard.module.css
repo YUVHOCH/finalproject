@@ -14,8 +14,8 @@
 }
 
 .imageWrapper {
-  width: 230px;
-  height: 230px;
+  width: 300px;
+  height: 300px;
   position: relative;
   display: flex;
   justify-content: center;
@@ -24,7 +24,7 @@
   border-radius: 12px;
   overflow: hidden;
   flex-shrink: 0;
-  margin-top: 20px;
+  margin-top: 40px;
 }
 
 .mainImage {
@@ -184,7 +184,8 @@ imageSection {
 }
 
 .review {
-  width: 90px;
+  width: 110px;
+  margin-top: 20px;
 }
 
 .info {
@@ -234,14 +235,13 @@ imageSection {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   margin: 3px;
   align-items: flex-start;
-  width: calc(100% - 6px);
   max-width: none;
-  min-height: 180px;
+  min-height: 310px;
   position: relative;
 }
 
 .homeSaleCard .imageSection {
-  width: 140px;
+  width: 160px;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
@@ -252,8 +252,8 @@ imageSection {
 }
 
 .homeSaleCard .imageWrapper {
-  width: 140px;
-  height: 140px;
+  width: 150px;
+  height: 150px;
   margin: 0;
   display: flex;
   justify-content: center;
@@ -288,11 +288,11 @@ imageSection {
 }
 
 .homeSaleCard .name {
-  font-size: 14px;
+  font-size: 15px;
   line-height: 1.2;
   height: auto;
   max-height: 32px;
-  margin-bottom: 4px;
+  margin-bottom: 10px;
   overflow: hidden;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -300,9 +300,9 @@ imageSection {
 }
 
 .homeSaleCard .shortDescription {
-  font-size: 11px;
-  height: 6em;
-  margin-bottom: 6px;
+  font-size: 12px;
+  height: 10em;
+  margin-bottom: 5px;
   overflow: hidden;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -311,15 +311,18 @@ imageSection {
 
 .homeSaleCard .price {
   font-size: 16px;
+  margin-top: 10px;
 }
 
 .homeSaleCard .priceInstead {
   font-size: 12px;
+  margin-top: 10px;
 }
 
 .homeSaleCard .actions {
   gap: 8px;
   min-height: 28px;
+  margin-top: 0px;
 }
 
 .homeSaleCard .quantitySelect {
@@ -344,6 +347,7 @@ imageSection {
 
 .homeSaleCard .review {
   width: 60px;
+  display: none;
 }
 
 .homeSaleCard .metaLine {
@@ -351,10 +355,11 @@ imageSection {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  display: none;
 }
 
 .homeSaleCard .brandLogo {
-  max-height: 25px;
+  height: 25px;
   max-width: 70px;
   object-fit: contain;
   margin-bottom: 4px;
