@@ -125,19 +125,18 @@ const AdminProducts = () => {
       <table className="w-full border-collapse border border-gray-300">
         <thead className="bg-gray-100">
           <tr>
-            <th className="border px-2 py-1">SKU</th>
-            <th className="border px-2 py-1">Name</th>
-            <th className="border px-2 py-1">Title</th>
-            <th className="border px-2 py-1">Short</th>
-            <th className="border px-2 py-1">Long</th>
-            <th className="border px-2 py-1">Price</th>
-            <th className="border px-2 py-1">Instead</th>
-            <th className="border px-2 py-1">Image</th>
-            <th className="border px-2 py-1">Active</th>
-            <th className="border px-2 py-1">isSale</th>
-            <th className="border px-2 py-1">homeSaleProducts</th>
-            <th className="border px-2 py-1">Actions</th>
-           
+            <th className="border px-2 py-1" style={{ textAlign: 'center !important' }}>SKU</th>
+            <th className="border px-2 py-1" style={{ textAlign: 'center !important' }}>Name</th>
+            <th className="border px-2 py-1" style={{ textAlign: 'center !important' }}>Title</th>
+            <th className="border px-2 py-1" style={{ textAlign: 'center !important' }}>Short</th>
+            <th className="border px-2 py-1" style={{ textAlign: 'center !important' }}>Long</th>
+            <th className="border px-2 py-1" style={{ textAlign: 'center !important' }}>Price</th>
+            <th className="border px-2 py-1" style={{ textAlign: 'center !important' }}>Instead</th>
+            <th className="border px-2 py-1" style={{ textAlign: 'center !important' }}>Image</th>
+            <th className="border px-2 py-1" style={{ textAlign: 'center !important' }}>Active</th>
+            <th className="border px-2 py-1" style={{ textAlign: 'center !important' }}>isSale</th>
+            <th className="border px-2 py-1" style={{ textAlign: 'center !important' }}>homeSaleProducts</th>
+            <th className="border px-2 py-1" style={{ textAlign: 'center !important' }}>Actions</th>
           </tr>
         </thead>
         
@@ -149,18 +148,42 @@ const AdminProducts = () => {
           .map((prod) => (
             <tr key={prod.sku}>
               <td className="border px-2 py-1">{prod.sku}</td>
-              <td className="border px-2 py-1">{prod.productName}</td>
-              <td className="border px-2 py-1">{prod.titleDescription}</td>
-              <td className="border px-2 py-1">
+              <td className="border px-2 py-1" style={{ direction: 'rtl', textAlign: 'right' }}>{prod.productName}</td>
+              <td className="border px-2 py-1" style={{ direction: 'rtl', textAlign: 'right' }}>{prod.titleDescription}</td>
+              <td className="border px-2 py-1" style={{ 
+                direction: 'rtl', 
+                textAlign: 'right',
+                maxWidth: '400px',
+                whiteSpace: 'normal',
+                wordWrap: 'break-word',
+                minWidth: '150px'
+              }}>
                 <div dangerouslySetInnerHTML={{ __html: prod.shortDescription }} />
               </td>
-              <td className="border px-2 py-1">
+              <td className="border px-2 py-1" style={{ 
+                direction: 'rtl', 
+                textAlign: 'right',
+                maxWidth: '300px',
+                whiteSpace: 'normal',
+                wordWrap: 'break-word'
+              }}>
                 <div dangerouslySetInnerHTML={{ __html: (prod.longDescription || "").substring(0, 100) + "..." }} />
               </td>
-              <td className="border px-2 py-1">{prod.price}</td>
-              <td className="border px-2 py-1">{prod.priceInstead}</td>
+              <td className="border px-2 py-1">{prod.price?.toFixed(2)}</td>
+              <td className="border px-2 py-1">{prod.priceInstead?.toFixed(2)}</td>
               <td className="border px-2 py-1">
-                <img src={prod.image} alt="pic" width="50" />
+                <img 
+                  src={`/images/${prod.sku}.jpg`}
+                  alt={prod.productName}
+                  width="50"
+                  onError={(e) => {
+                    if (e.target.src.endsWith('.jpg')) {
+                      e.target.src = `/images/${prod.sku}.png`;
+                    } else {
+                      e.target.src = '/images/default.jpg';
+                    }
+                  }}
+                />
               </td>
               <td className="border px-2 py-1">{prod.isSale? "✅" : "❌"}</td>
               <td className="border px-2 py-1">{prod.homeSaleProducts? "✅" : "❌"}</td>

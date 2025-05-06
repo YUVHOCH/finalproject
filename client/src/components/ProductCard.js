@@ -22,6 +22,7 @@ const ProductCard = ({
   className,
   isSale,
   homeSaleProducts,
+  isSalesPage,
 }) => {
   const navigate = useNavigate();
   const [imageSrc, setImageSrc] = useState(`/images/${sku}.jpg`);
@@ -76,7 +77,7 @@ const ProductCard = ({
   };
 
   return (
-    <div className={`${styles.card} ${className || ''}`}>
+    <div className={`${styles.card} ${isSalesPage ? styles.salesPageCard : ''} ${className || ''}`}>
       {/* פלאח מבצע */}
       {(isSale || homeSaleProducts) && (
         <div className={styles.flachContainer} style={{ zIndex: 2 }}>

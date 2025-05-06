@@ -66,34 +66,26 @@ const SaleProducts = () => {
 
         <h2 className={styles.title}>המבצעים שלנו 🔥</h2>
 
-        <div className={styles.container_productgrid}>
-          {loading ? (
-            <div className={styles.loadingContainer}>
-              <div className={styles.spinner}></div>
-            </div>
-          ) : products && products.length > 0 ? (
-            products.map((product) => (
-              <ProductCard
-                key={product._id}
-                sku={product.sku}
-                productName={product.productName}
-                brand={product.brand}
-                brandLogo={product.brandLogo}
-                model={product.model}
-                price={product.price}
-                priceInstead={product.priceInstead}
-                image={product.image}
-                shortDescription={product.shortDescription}
-                longDescription={product.longDescription}
-                country={product.country}
-                warranty={product.warranty}
-                isSale={true}
-                className={styles.productCard}
-              />
-            ))
-          ) : (
-            <div>אין מוצרים במבצע</div>
-          )}
+        <div className={styles.productsGridWrapper}>
+          <div className={styles.container_productgrid}>
+            {loading ? (
+              <div className={styles.loadingContainer}>
+                <div className={styles.spinner}></div>
+              </div>
+            ) : products && products.length > 0 ? (
+              products.map((product) => (
+                <ProductCard
+                  key={product._id}
+                  {...product}
+                  isSale={true}
+                  isSalesPage={true}
+                  className={styles.saleProductCard}
+                />
+              ))
+            ) : (
+              <div>אין מוצרים במבצע</div>
+            )}
+          </div>
         </div>
       </div>
     </>

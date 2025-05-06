@@ -1,8 +1,9 @@
 .homeSaleProductsContainer {
   width: 90%;
-  max-width: 1700px;
   margin: 0 auto;
   padding: 15px;
+  background-color: #f8f8f8;
+
 }
 
 .saleHomeTitle {
@@ -14,17 +15,11 @@
 
 .productsGrid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  column-gap: 22px;
-  row-gap: 22px;
-  margin: 0;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
   padding: 5px;
 }
 
-.productsGrid > * {
-  min-width: 0;
-  width: 100%;
-}
 
 .loading {
   text-align: center;
@@ -47,20 +42,11 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
     column-gap: 14px;
   }
-  
-  .homeSaleProductsContainer {
-    padding: 10px;
-  }
-}
+} 
 
 /* מדיה קוורי למובייל */
 @media (max-width: 480px) {
   .productsGrid {
     grid-template-columns: repeat(1, minmax(0, 1fr));
     gap: 10px;
-  }
-  
-  .homeSaleProductsContainer {
-    padding: 8px;
-  }
-} 
+  }}

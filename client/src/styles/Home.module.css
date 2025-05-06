@@ -21,17 +21,17 @@
   background-color: #f2f2f2; /* אפור בהיר */
 }
 .featuredCategories {
-  padding: 2rem 0;
+  padding: 1rem 0;
   width: 100%;
   max-width: 1800px;
   background-color: #fdfafa;
-  margin: 20px auto;
+  margin: 10px auto;
 }
 
 .featuredTitle {
   text-align: center;
   margin-bottom: 1rem;
-  font-size: 1.7rem;
+  font-size: 2rem;
   color: #4b4c4d;
 }
 
@@ -39,7 +39,7 @@
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   gap: 1.5rem;
-  padding: 3rem;
+  padding: 2.5rem;
 }
 
 .categoryCard {
@@ -75,7 +75,7 @@
 
 .categoryName {
   text-align: center;
-  font-size: 1rem;
+  font-size: 1.3rem;
   margin-top: 1.25rem;
   color: #333;
 }

@@ -14,8 +14,8 @@
 }
 
 .imageWrapper {
-  width: 300px;
-  height: 300px;
+  width: 220px;
+  height: 220px;
   position: relative;
   display: flex;
   justify-content: center;
@@ -36,7 +36,7 @@
   border-radius: 12px;
 }
 
-imageSection {
+.imageSection {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -94,10 +94,10 @@ imageSection {
 }
 
 .shortDescription {
-  height: 11em; /* בערך 4.5–5 שורות */
+  height: 8em; /* בערך 4.5–5 שורות */
   overflow: hidden;
   position: relative;
-  line-height: 1.4em;
+  line-height: 1.45em;
   font-size: 14px;
   color: #666;
   margin-bottom: 40px;
@@ -226,6 +226,188 @@ imageSection {
 /* סגנון מיוחד לכרטיסי מוצר בדף הבית */
 .homeSaleCard {
   display: flex;
+  flex-direction: column; /* שינוי לסידור אנכי */
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 10px;
+  gap: 0px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  margin: 0px;
+  position: relative;
+  width: 350px; /* הגבלת רוחב מקסימלי */
+  margin-right: 20px;
+  margin-left: 20px;
+}
+
+.homeSaleCard .imageSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0; /* ביטול margin */
+  margin-top: 0; /* ביטול margin-top ספציפי */
+}
+
+.homeSaleCard .imageWrapper {
+  width: 350px;
+  height: 330px;
+  margin-top: 40px;
+  }
+
+.homeSaleCard .mainImage {
+  max-width: 95%;
+  max-height: 95%;
+  object-fit: contain;
+}
+ 
+.homeSaleCard .thumbnailList { 
+  display: none;
+}
+
+
+.homeSaleCard .flachContainer {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+}
+
+.homeSaleCard .brandLogo {
+  height: 25px;
+  max-width: 100px;
+  object-fit: contain;
+  margin: 0 10px 0; /* רק מרווח בצדדים */
+  padding: 0; /* ביטול padding אם קיים */
+  display: block;
+  justify-content: flex-end;
+  margin-right: 2px;
+  margin-top: 5px;
+}
+
+.homeSaleCard .name {
+  font-size: 18px;
+  font-weight: bold;
+  overflow: hidden;
+  margin-right: 5px;
+  margin-top: 8px; 
+}
+
+.homeSaleCard .shortDescription {
+  font-size: 13px;
+  margin-right: 5px;
+  height: 100px;
+}
+
+.homeSaleCard .priceBox {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin: 5px 0;
+  align-self: flex-start; /* יישור לימין במיכל flex */
+  margin-right: 10px;
+}
+
+
+.homeSaleCard .price {
+  font-size: 22px;
+  color: #0044cc;
+  font-weight: bold;
+}
+
+.homeSaleCard .priceInstead {
+  font-size: 16px;
+  color: #888;
+  text-decoration: line-through;
+}
+
+.homeSaleCard .actions {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  margin-top: 5px;
+}
+
+.homeSaleCard .quantitySelect {
+  width: 55px;
+  height: 40px;
+  font-size: 14px;
+  padding: 0 2px;
+}
+
+.homeSaleCard .addToCartButton {
+  width: auto;
+  height: 40px;
+}
+
+.homeSaleCard .detailsButton {
+  font-size: 11px;
+  height: 40px;
+  width: 80px;
+  padding: 0 3px;
+}
+
+.homeSaleCard .metaLine{
+  display: none;
+}
+
+.review {
+  display: none;
+}
+
+/* סגנונות בסיסיים לפלאח */
+.flachContainer {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  z-index: 100 !important; /* העלאת ה-z-index */
+  pointer-events: none;
+}
+
+.flachImage {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+}
+
+/* הגדרות ספציפיות לכרטיס בדף מוצרים */
+:global(.category-product-card) {
+  position: relative !important; /* חשוב! */
+}
+
+:global(.category-product-card .flachContainer) {
+  position: absolute !important;
+  top: 5px !important;
+  right: 5px !important;
+  z-index: 100 !important;
+}
+
+.productCard {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: white;
+}
+
+.imageWrapper {
+  width: 220px;
+  height: 220px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.imageWrapper img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* סגנון מיוחד לכרטיסי מוצר בדף Sales */
+.salesPageCard {
+  display: flex;
   flex-direction: row-reverse;
   gap: 5px;
   border: 1px solid #ddd;
@@ -240,8 +422,8 @@ imageSection {
   position: relative;
 }
 
-.homeSaleCard .imageSection {
-  width: 160px;
+.salesPageCard .imageSection {
+  width: 225px;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
@@ -251,34 +433,34 @@ imageSection {
   margin-top: 40px;
 }
 
-.homeSaleCard .imageWrapper {
-  width: 150px;
-  height: 150px;
+.salesPageCard .imageWrapper {
+  width: 225px;
+  height: 225px;
   margin: 0;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.homeSaleCard .mainImage {
-  max-width: 88%;
-  max-height: 88%;
+.salesPageCard .mainImage {
+  max-width: 90%;
+  max-height: 90%;
   object-fit: contain;
 }
 
-.homeSaleCard .thumbnailList {
-  margin-top: 4px;
+.salesPageCard .thumbnailList {
+  margin-top: 2px;
   gap: 3px;
   justify-content: center;
 }
 
-.homeSaleCard .thumbnail {
+.salesPageCard .thumbnail {
   width: 25px;
   height: 25px;
   margin-top: 3px;
 }
 
-.homeSaleCard .details {
+.salesPageCard .details {
   flex: 1;
   min-height: auto;
   gap: 6px;
@@ -287,11 +469,11 @@ imageSection {
   margin-left: 10px;
 }
 
-.homeSaleCard .name {
-  font-size: 15px;
+.salesPageCard .name {
+  font-size: 16px;
   line-height: 1.2;
   height: auto;
-  max-height: 32px;
+  max-height: 48px;
   margin-bottom: 10px;
   overflow: hidden;
   display: -webkit-box;
@@ -299,7 +481,7 @@ imageSection {
   -webkit-box-orient: vertical;
 }
 
-.homeSaleCard .shortDescription {
+.salesPageCard .shortDescription {
   font-size: 12px;
   height: 10em;
   margin-bottom: 5px;
@@ -309,35 +491,35 @@ imageSection {
   -webkit-box-orient: vertical;
 }
 
-.homeSaleCard .price {
+.salesPageCard .price {
   font-size: 16px;
   margin-top: 10px;
 }
 
-.homeSaleCard .priceInstead {
+.salesPageCard .priceInstead {
   font-size: 12px;
   margin-top: 10px;
 }
 
-.homeSaleCard .actions {
+.salesPageCard .actions {
   gap: 8px;
   min-height: 28px;
   margin-top: 0px;
 }
 
-.homeSaleCard .quantitySelect {
+.salesPageCard .quantitySelect {
   width: 45px;
   height: 26px;
   font-size: 12px;
   padding: 0 2px;
 }
 
-.homeSaleCard .addToCartButton {
+.salesPageCard .addToCartButton {
   width: 65px;
   height: 28px;
 }
 
-.homeSaleCard .detailsButton {
+.salesPageCard .detailsButton {
   font-size: 11px;
   height: 24px;
   padding: 0 3px;
@@ -345,12 +527,12 @@ imageSection {
   max-width: 50px;
 }
 
-.homeSaleCard .review {
+.salesPageCard .review {
   width: 60px;
   display: none;
 }
 
-.homeSaleCard .metaLine {
+.salesPageCard .metaLine {
   font-size: 9px;
   white-space: nowrap;
   overflow: hidden;
@@ -358,7 +540,7 @@ imageSection {
   display: none;
 }
 
-.homeSaleCard .brandLogo {
+.salesPageCard .brandLogo {
   height: 25px;
   max-width: 70px;
   object-fit: contain;
@@ -366,27 +548,11 @@ imageSection {
   margin-top: 8px;
 }
 
-.flachContainer {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  z-index: 1;
-}
+/* שאר הסגנונות הקיימים נשארים */
 
-.flachImage {
-  width: 60px;
-  height: 60px;
-  object-fit: contain;
-}
-
-/* התאמה ספציפית לפלאח בכרטיסי HomeSale */
-.homeSaleCard .flachContainer {
-  top: 3px;
-  right: 3px;
-}
-
-.homeSaleCard .flachImage {
-  width: 45px;
-  height: 45px;
+.homeSaleCard .productLink {
+  margin: 0; /* ביטול מרווחים מהלינק שעוטף את השם */
+  padding: 0;
+  display: block;
 }
 

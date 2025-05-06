@@ -190,7 +190,7 @@ const ProductsPage = () => {
                   <ProductCard 
                     key={prod.sku} 
                     {...prod}
-                    className={styles.categoryProductCard}
+                    className="category-product-card"
                   />
                 ))}
               </div>
