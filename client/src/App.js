@@ -19,6 +19,7 @@ import ProductPage from "./pages/ProductPage";
 import CartPage from "./pages/CartPage";
 import ShippingPolicy from "./pages/ShippingPolicy";
 import SaleProducts from './pages/SaleProducts';
+import CheckoutPage from './pages/CheckoutPage';
 
 function App() {
   const scrollDirection = useScrollDirection();
@@ -44,6 +45,7 @@ function App() {
                 <Route path="/cart" element={<CartPage />} />
                 <Route path="/products/:category?/:subcategory?/:subsubcategory?" element={<ProductsPage />} />
                 <Route path="/shippingpolicy" element={<ShippingPolicy />} />
+                <Route path="/checkout" element={<CheckoutPage />} />
               </Routes>
 
               <footer className={styles.footer}>© 2025 My Garden Shop</footer>

@@ -4,11 +4,12 @@ import axios from "axios";
 import styles from "../styles/CartPage.module.css";
 import SearchStrip from "../components/SearchStrip";
 import ShippingMethod from "../components/ShippingMethod";
-import { Link } from "react-router-dom"; // ודא שזה נמצא למעלה בקובץ
+import { Link, useNavigate } from "react-router-dom"; // ודא שזה נמצא למעלה בקובץ
 
 const CartPage = () => {
   const [cartItems, setCartItems] = useState([]);
   const [allProducts, setAllProducts] = useState([]); // 🔄 לשליפת קטגוריות ל־SearchStrip
+  const navigate = useNavigate();
 
   // שליפת מוצרים לעיבוד קטגוריות
   useEffect(() => {
@@ -180,7 +181,12 @@ const totalWithShipping = totalPrice + shippingCost;
                 <input type="text" placeholder="יש לי קופון.." />
                 </div>
 
-                <button className={styles.payButton}>תשלום אורח</button>
+                <button 
+                  className={styles.payButton}
+                  onClick={() => navigate('/checkout')}
+                >
+                  תשלום אורח
+                </button>
                 <button className={styles.registeredPayButton}>תשלום לרשומים</button>
             </div>
         </div>
