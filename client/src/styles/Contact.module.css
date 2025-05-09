@@ -6,7 +6,7 @@
   padding: 0 20px 20px 20px;
   gap: 40px;
   flex-direction: row-reverse;
-  margin-top: 50px;
+  margin-top: 15px;
 }
 
 .imageSection {
@@ -77,7 +77,10 @@
 }
 
 .breadcrumbs {
-  margin-bottom: 30px;
+  position: absolute;  /* מיקום אבסולוטי */
+  margin-top:  1cqh;         /* העלאה כלפי מעלה */
+  right: 60px;        /* יישור לימין כמו הכותרת */
+  margin-bottom: 0;   /* ביטול המרווח התחתון */
   color: #666;
 }
 
@@ -93,8 +96,10 @@
 .formSection h1 {
   color: #333;
   margin-bottom: 30px;
+  margin-top: 50px;
   margin-right: 60px;
   font-size: 2rem;
+  position: relative; 
 }
 
 .formGroup {
@@ -135,11 +140,11 @@
   color: white;
   border: none;
   padding: 12px 30px;
-  border-radius: 6px;
+  border-radius: 3px;
   font-size: 1.1rem;
   cursor: pointer;
   transition: background-color 0.2s;
-  margin-right: 105px;
+  width: 65%;
 }
 
 .submitButton:hover {

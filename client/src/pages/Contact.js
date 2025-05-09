@@ -93,7 +93,7 @@ const Contact = () => {
 
         <div className={styles.formSection}>
           <div className={styles.breadcrumbs}>
-            <a href="/">דף הבית</a> / צור איתנו קשר
+            <a href="/">דף הבית</a> / צור קשר
           </div>
           <h1>צור איתנו קשר</h1>
           
@@ -135,25 +135,23 @@ const Contact = () => {
             </div>
 
             <div className={styles.formGroup}>
-              <label htmlFor="subject">נושא *</label>
+              <label htmlFor="subject">נושא</label>
               <input
                 type="text"
                 id="subject"
                 name="subject"
                 value={formData.subject}
                 onChange={handleChange}
-                required
               />
             </div>
 
             <div className={styles.formGroup}>
-              <label htmlFor="message">הודעה *</label>
+              <label htmlFor="message">הודעה</label>
               <textarea
                 id="message"
                 name="message"
                 value={formData.message}
                 onChange={handleChange}
-                required
               />
             </div>
 

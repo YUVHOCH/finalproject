@@ -166,4 +166,22 @@
     bottom: 20px;
     right: 20px;
   }
+}
+
+.stickyHeader {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: white;
+  transition: transform 0.3s ease;
+}
+
+.hideHeader {
+  transform: translateY(-100%);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
 } 
