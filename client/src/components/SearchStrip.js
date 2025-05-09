@@ -3,36 +3,38 @@ import React, { useState, useRef, useEffect } from "react";
 import styles from "../styles/SearchStrip.module.css";
 import { FaSearch, FaBars } from "react-icons/fa";
 import { useSearch } from "../context/SearchContext";
+import { useMenu } from "../context/MenuContext";
 import CategoryMenu from "./CategoryMenu";
 import { useNavigate } from "react-router-dom";
 
 const SearchStrip = ({ categories }) => {
   const { setSearchTerm } = useSearch();
-  const [showMenu, setShowMenu] = useState(false);
+  const { isMenuOpen, toggleMenu } = useMenu();
   const [localTerm, setLocalTerm] = useState("");
-  const menuRef = useRef(null); // ✅ רפרנס לתפריט
+  const menuRef = useRef(null);
   const navigate = useNavigate();
 
-  // ✅ סגירה אוטומטית בלחיצה מחוץ לתפריט או על Escape
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (menuRef.current && !menuRef.current.contains(e.target)) {
-        setShowMenu(false);
+        toggleMenu();
       }
     };
 
     const handleEsc = (e) => {
-      if (e.key === "Escape") setShowMenu(false);
+      if (e.key === "Escape") toggleMenu();
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
-    document.addEventListener("keydown", handleEsc);
+    if (isMenuOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener("keydown", handleEsc);
+    }
 
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
       document.removeEventListener("keydown", handleEsc);
     };
-  }, []);
+  }, [isMenuOpen, toggleMenu]);
 
   const handleInputChange = (e) => {
     setLocalTerm(e.target.value);
@@ -41,7 +43,7 @@ const SearchStrip = ({ categories }) => {
   const handleSearch = () => {
     setSearchTerm(localTerm.trim());
     navigate("/products");
-    setShowMenu(false); // ✅ סגור תפריט אחרי חיפוש
+    if (isMenuOpen) toggleMenu();
   };
 
   const handleKeyDown = (e) => {
@@ -54,16 +56,16 @@ const SearchStrip = ({ categories }) => {
         <div className={styles.iconWrapper}>
           <button
             className={styles.hamburgerButton}
-            onClick={() => setShowMenu((prev) => !prev)}
+            onClick={toggleMenu}
           >
             <FaBars />
           </button>
 
-          {showMenu && Array.isArray(categories) && categories.length > 0 && (
+          {isMenuOpen && Array.isArray(categories) && categories.length > 0 && (
             <div className={styles.menuWrapper} ref={menuRef}>
               <CategoryMenu
                 categories={categories}
-                closeMenu={() => setShowMenu(false)}
+                closeMenu={toggleMenu}
               />
             </div>
           )}
@@ -71,7 +73,7 @@ const SearchStrip = ({ categories }) => {
 
         <span
           className={styles.categoriesLabel}
-          onClick={() => setShowMenu((prev) => !prev)}
+          onClick={toggleMenu}
         >
           כל הקטגוריות
         </span>

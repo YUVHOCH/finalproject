@@ -4,6 +4,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const app = express();
+const brandsRouter = require('./routes/brands');
 
 // 🔌 Middlewares
 app.use(express.json());
@@ -18,6 +19,7 @@ const adminRoutes = require('./routes/admin');
 app.use('/users', userRoutes);
 app.use('/products', productRoutes);
 app.use('/admin', adminRoutes);
+app.use('/brands', brandsRouter);
 
 // ✅ דף ראשי לבדיקה
 app.get('/', (req, res) => {

@@ -19,9 +19,9 @@ const Admin = () => {
   const activeTab = location.pathname.split("/")[2] || "products";
 
   return (
-    <div className={styles.adminWrapper}>
-      <h1 className={styles.pageTitle}>Admin Dashboard</h1>
-
+    <div className={styles.container}>
+      <h1>Admin Dashboard</h1>
+      
       <div className={styles.navTabs}>
         <NavLink
           to="/admin/products"
@@ -41,6 +41,12 @@ const Admin = () => {
         >
           🧾 Orders
         </NavLink>
+        <NavLink
+          to="/admin/brands"
+          className={activeTab === "brands" ? styles.activeTab : ""}
+        >
+          🏷️ Brands
+        </NavLink>
       </div>
 
       <div className={styles.tabContent}>
@@ -52,6 +58,10 @@ const Admin = () => {
           <Route path="orders" element={<AdminOrders />} />
         </Routes>
       </div>
+
+      {activeTab === "brands" && (
+        <iframe src="/admin/brands" title="Brands Management" />
+      )}
     </div>
   );
 };
