@@ -1,60 +1,112 @@
 /*client\src\styles\CategoryMenu.module.css*/*
-.menuWrapper {
-    position: absolute; /* ✅ מוודא שהתפריט יופיע מעל שאר התוכן */
-    top: 2px;          /* 🔧 שנה לפי גובה ההאדר שלך */
-    right: 0;
-    display: flex;
-    background-color: #fff;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    z-index: 9999;
-    direction: rtl;
-    padding: 0;
-    border-radius: 8px;
-    min-width: 600px;
-    margin-top: 4.5PX;
-  }
-  
-  /* עמודות (קטגוריה ראשית, תת, תת־תת) */
-  .column {
-    flex: 1;
-    display: flex;
+.menuContainer {
+  display: flex;
+  background: white;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  direction: rtl;
+  min-height: 400px;
+}
+
+.mainCategories {
+  width: 130px;
+  border-left: 1px solid #eee;
+  background: #f8f8f8;
+  flex-shrink: 0;
+  margin-top: 15px;
+}
+
+.mainCategory {
+  padding: 8px 15px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-size: 0.95rem;
+}
+
+.mainCategory:hover,
+.mainCategory.active {
+  background: white;
+  color: #007bff;
+}
+
+.subCategoriesWrapper {
+  flex: 1;
+  background: white;
+  padding: 20px;
+  overflow-x: auto;
+}
+
+.subCategoriesContainer {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(200px, 1fr);
+  gap: 24px;
+  width: fit-content;
+  min-width: 100%;
+}
+
+.subCategoryGroup {
+  padding-left: 15px;
+  border-left: 1px solid #eee;
+}
+
+.subCategoryGroup:last-child {
+  border-left: none;
+}
+
+.subCategoryTitle {
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #eee;
+  white-space: nowrap;
+}
+
+.subsubCategories {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.subsubCategory {
+  padding: 4px 0;
+  cursor: pointer;
+  color: #666;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.subsubCategory:hover {
+  color: #007bff;
+}
+
+/* התאמה למובייל */
+@media (max-width: 768px) {
+  .menuContainer {
     flex-direction: column;
-    gap: 8px;
-    padding-bottom: 20px;
-    min-width: 160px; /* ✅ רוחב אחיד לכל עמודה */
-    max-width: 200px; /* ✅ הגבלה למניעת התפרצות */
+    min-height: unset;
   }
-  
-  /* פריט בכל עמודה */
-  .item {
-    padding: 8px 12px;
-    cursor: pointer;
-    font-size: 15px;
-    border-radius: 4px;
-    transition: background-color 0.2s ease;
-    white-space: nowrap;
+
+  .mainCategories {
+    width: 100%;
+    border-left: none;
     border-bottom: 1px solid #eee;
   }
 
-  .item:last-child {
-    border-bottom: none; /* ❌ מבטל קו בשורה האחרונה */
+  .subCategoriesContainer {
+    grid-auto-flow: row;
+    grid-template-columns: 1fr;
   }
-  
-  /* מעבר עכבר */
-  .item:hover {
-    background-color: #f2f2f2;
+
+  .subCategoryGroup {
+    padding-left: 0;
+    border-left: none;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
   }
-  
-  /* פריט שנבחר */
-  .selected {
-    background-color: #e0e0e0;
-    font-weight: bold;
+
+  .subCategoryGroup:last-child {
+    border-bottom: none;
   }
-  
-  /* רספונסיביות: לא יוצג במובייל (בהמשך נוכל לבנות תפריט אחר למובייל) */
-  @media (max-width: 768px) {
-    .menuWrapper {
-      display: none;
-    }
-  }
+}
   

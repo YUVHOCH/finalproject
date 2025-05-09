@@ -7,10 +7,55 @@ import { useSearch } from "../context/SearchContext";
 
 const CategoryMenu = ({ categories, closeMenu }) => {
   const { setSearchTerm } = useSearch();
-  const [selectedMain, setSelectedMain] = useState(null);
-  const [selectedSub, setSelectedSub] = useState(null);
-  const [categoryCounts, setCategoryCounts] = useState({}); // 🆕 ספירת מוצרים לפי תת־תת־קטגוריה
   const navigate = useNavigate();
+  const [hoveredCategory, setHoveredCategory] = useState(null);
+  const [categoryCounts, setCategoryCounts] = useState({}); // 🆕 ספירת מוצרים לפי תת־תת־קטגוריה
+
+  // מארגן את הקטגוריות בצורה נקייה ומסננת כפילויות
+  const organizedCategories = React.useMemo(() => {
+    const mainCats = [...new Set(categories.filter(c => c.category).map(c => c.category))];
+    const categoryMap = {};
+
+    mainCats.forEach(mainCat => {
+      // מוצא את כל תתי הקטגוריות הייחודיות למיין קטגורי
+      const subsForMain = [...new Set(
+        categories
+          .filter(c => c.category === mainCat && c.subcategory)
+          .map(c => c.subcategory)
+      )];
+
+      categoryMap[mainCat] = {
+        subCategories: {}
+      };
+
+      subsForMain.forEach(sub => {
+        // מסנן כפילויות בתת-תת קטגוריות
+        const uniqueSubsubs = [...new Set(
+          categories
+            .filter(c => 
+              c.category === mainCat && 
+              c.subcategory === sub && 
+              c.subsubcategory
+            )
+            .map(c => c.subsubcategory)
+        )];
+
+        if (uniqueSubsubs.length > 0) {
+          categoryMap[mainCat].subCategories[sub] = uniqueSubsubs;
+        }
+      });
+    });
+
+    return categoryMap;
+  }, [categories]);
+
+  // בחירת קטגוריה ראשונה כברירת מחדל
+  useEffect(() => {
+    const firstCategory = Object.keys(organizedCategories)[0];
+    if (firstCategory && !hoveredCategory) {
+      setHoveredCategory(firstCategory);
+    }
+  }, [organizedCategories, hoveredCategory]);
 
   useEffect(() => {
     axios.get("http://localhost:8000/products/category-counts")
@@ -24,87 +69,54 @@ const CategoryMenu = ({ categories, closeMenu }) => {
       .catch(err => console.error("שגיאה בספירת קטגוריות:", err));
   }, []);
 
-  if (!Array.isArray(categories) || categories.length === 0) {
-    return null; // ✅ מונע הצגה אם הנתונים לא תקינים
-  }
-
-  const getSubcategories = () => {
-    return Array.from(new Set(
-      categories
-        .filter(c => c.category === selectedMain)
-        .map(c => c.subcategory)
-    ));
+  const handleItemClick = (main, sub, subsub) => {
+    setSearchTerm("");
+    navigate(`/products/${encodeURIComponent(main)}/${encodeURIComponent(sub)}/${encodeURIComponent(subsub)}`);
+    closeMenu();
   };
 
-  const getSubSubcategories = () => {
-    return Array.from(new Set(
-      categories
-      .filter(c => c.category === selectedMain && c.subcategory === selectedSub)
-      .map(c => c.subsubcategory)
-    ));
+  // חישוב מספר העמודות הנדרש לפי מספר תתי הקטגוריות
+  const getColumnCount = (subCategories) => {
+    const count = Object.keys(subCategories).length;
+    return Math.min(Math.max(2, Math.ceil(count / 2)), 4); // מינימום 2 עמודות, מקסימום 4
   };
 
   return (
-    <div className={styles.menuWrapper}>
-      {/* קטגוריות ראשיות */}
-      <div className={styles.column}>
-        {Array.from(new Set(categories.map(c => c.category))).map((cat) => (
+    <div className={styles.menuContainer}>
+      {/* רשימת קטגוריות ראשיות */}
+      <div className={styles.mainCategories}>
+        {Object.keys(organizedCategories).map(mainCat => (
           <div
-            key={cat}
-            className={`${styles.item} ${selectedMain === cat ? styles.selected : ""}`}
-            onMouseEnter={() => {
-              setSelectedMain(cat);
-              setSelectedSub(null);
-            }}
+            key={mainCat}
+            className={`${styles.mainCategory} ${hoveredCategory === mainCat ? styles.active : ''}`}
+            onMouseEnter={() => setHoveredCategory(mainCat)}
           >
-            {cat}
+            {mainCat}
           </div>
         ))}
       </div>
 
-      {/* תתי־קטגוריות */}
-      {selectedMain && (
-        <div className={styles.column}>
-          {getSubcategories().map((sub) => (
-            <div
-              key={sub}
-              className={`${styles.item} ${selectedSub === sub ? styles.selected : ""}`}
-              onMouseEnter={() => setSelectedSub(sub)}
-            >
-              {sub}
-            </div>
-          ))}
-        </div>
-      )}
-
-      {/* תתי־תתי־קטגוריות */}
-      {selectedSub && (
-        <div className={styles.column}>
-          {getSubSubcategories().map((subsub, i) => (
-        <div
-          key={i}
-          className={styles.item}
-          onClick={() => {
-            const newPath = `/products/${encodeURIComponent(selectedMain)}/${encodeURIComponent(selectedSub)}/${encodeURIComponent(subsub)}`;
-            setSearchTerm("");
-            if (window.location.pathname !== newPath) {
-              navigate(newPath);
-            } else {
-              navigate("/", { replace: true });
-              setTimeout(() => {
-                navigate(newPath);
-              }, 0);
-            }
-            closeMenu();
-          }}
-        >
-          {subsub}
-          <span style={{ color: "#888", fontSize: "0.9em", marginRight: "6px" }}>
-            ({categoryCounts[subsub] || 0})
-          </span>
-        </div>
-      ))}
-
+      {/* תת קטגוריות */}
+      {hoveredCategory && (
+        <div className={styles.subCategoriesWrapper}>
+          <div className={styles.subCategoriesContainer}>
+            {Object.entries(organizedCategories[hoveredCategory].subCategories).map(([subCat, subsubCats]) => (
+              <div key={subCat} className={styles.subCategoryGroup}>
+                <div className={styles.subCategoryTitle}>{subCat}</div>
+                <div className={styles.subsubCategories}>
+                  {subsubCats.map(subsub => (
+                    <div
+                      key={subsub}
+                      className={styles.subsubCategory}
+                      onClick={() => handleItemClick(hoveredCategory, subCat, subsub)}
+                    >
+                      {subsub}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       )}
     </div>
