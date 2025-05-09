@@ -97,7 +97,7 @@
   color: #333;
   margin-bottom: 30px;
   margin-top: 50px;
-  margin-right: 60px;
+  margin-right: 100px;
   font-size: 2rem;
   position: relative; 
 }
@@ -116,7 +116,7 @@
 
 .formGroup input,
 .formGroup textarea {
-  width: 60%;
+  width: 75%;
   padding: 12px;
   border: 1px solid #b3afaf;
   border-radius: 3px;
@@ -144,7 +144,7 @@
   font-size: 1.1rem;
   cursor: pointer;
   transition: background-color 0.2s;
-  width: 65%;
+  width: 80%;
 }
 
 .submitButton:hover {
