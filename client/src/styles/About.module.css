@@ -1,0 +1,70 @@
+.about {
+  direction: rtl;
+  font-family: "Heebo", "Assistant", sans-serif;
+  flex: 1;
+  padding: 2.5rem 1.5rem 4rem;
+  background: #fff;
+}
+
+.inner {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.title {
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+  font-weight: 700;
+  color: #1a365d;
+  margin: 0 0 2rem;
+  text-align: center;
+}
+
+.body {
+  color: #2d3748;
+  font-size: 1.1rem;
+  line-height: 1.75;
+}
+
+.body p {
+  margin: 0 0 1.25rem;
+}
+
+.body p:last-child {
+  margin-bottom: 0;
+}
+
+.contactBox {
+  margin-top: 2.5rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid #e2e8f0;
+  text-align: right;
+}
+
+.contactTitle {
+  margin: 0 0 0.75rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #1a365d;
+}
+
+.contactLink {
+  display: block;
+  color: #2b6cb0;
+  text-decoration: none;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.contactLink:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .about {
+    padding: 1.5rem 1rem 3rem;
+  }
+
+  .body {
+    font-size: 1rem;
+  }
+}
